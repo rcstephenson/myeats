@@ -1,0 +1,47 @@
+{
+  "_note": "HAND-CONSTRUCTED (not a recorded response) in the shape of real USDA search results, to exercise energy fallbacks 1008 -> 2047 -> 2048 and missing nutrients. Real DEMO_KEY responses always carried 1008.",
+  "foods": [
+    {
+      "fdcId": 900001,
+      "description": "Fallback to Atwater general (2047)",
+      "dataType": "Foundation",
+      "foodNutrients": [
+        { "nutrientId": 2047, "nutrientName": "Energy (Atwater General Factors)", "unitName": "KCAL", "value": 61.5 },
+        { "nutrientId": 2048, "nutrientName": "Energy (Atwater Specific Factors)", "unitName": "KCAL", "value": 60 },
+        { "nutrientId": 1003, "nutrientName": "Protein", "unitName": "G", "value": 1.1 }
+      ]
+    },
+    {
+      "fdcId": 900002,
+      "description": "Fallback to Atwater specific (2048)",
+      "dataType": "Foundation",
+      "foodNutrients": [{ "nutrientId": 2048, "nutrientName": "Energy (Atwater Specific Factors)", "unitName": "KCAL", "value": 58 }]
+    },
+    {
+      "fdcId": 900003,
+      "description": "No nutrients at all",
+      "dataType": "SR Legacy",
+      "foodNutrients": []
+    },
+    {
+      "fdcId": 900004,
+      "description": "Zero is not missing",
+      "dataType": "SR Legacy",
+      "foodNutrients": [
+        { "nutrientId": 1008, "nutrientName": "Energy", "unitName": "KCAL", "value": 0 },
+        { "nutrientId": 1093, "nutrientName": "Sodium, Na", "unitName": "MG", "value": 0 }
+      ]
+    },
+    {
+      "fdcId": 900005,
+      "description": "SPARKLING WATER",
+      "dataType": "Branded",
+      "gtinUpc": "012345678905",
+      "brandName": "ACME BEVERAGE",
+      "servingSize": 355,
+      "servingSizeUnit": "ml",
+      "householdServingFullText": "1 can",
+      "foodNutrients": [{ "nutrientId": 1008, "nutrientName": "Energy", "unitName": "KCAL", "value": 0 }]
+    }
+  ]
+}

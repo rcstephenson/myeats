@@ -1,0 +1,188 @@
+{
+  "totalHits": 53759,
+  "foods": [
+    {
+      "fdcId": 1917719,
+      "description": "PROTEIN BAR",
+      "dataType": "Branded",
+      "gtinUpc": "857128001460",
+      "brandOwner": "Healthsmart Foods Inc. ",
+      "brandName": "CHOCOA RITE",
+      "servingSize": 34,
+      "servingSizeUnit": "g",
+      "householdServingFullText": "1 BAR",
+      "foodNutrients": [
+        {
+          "nutrientId": 1003,
+          "nutrientName": "Protein",
+          "unitName": "G",
+          "value": 26.5
+        },
+        {
+          "nutrientId": 1004,
+          "nutrientName": "Total lipid (fat)",
+          "unitName": "G",
+          "value": 13.2
+        },
+        {
+          "nutrientId": 1005,
+          "nutrientName": "Carbohydrate, by difference",
+          "unitName": "G",
+          "value": 47.1
+        },
+        {
+          "nutrientId": 1008,
+          "nutrientName": "Energy",
+          "unitName": "KCAL",
+          "value": 294
+        },
+        {
+          "nutrientId": 2000,
+          "nutrientName": "Total Sugars",
+          "unitName": "G",
+          "value": 0
+        },
+        {
+          "nutrientId": 1079,
+          "nutrientName": "Fiber, total dietary",
+          "unitName": "G",
+          "value": 35.3
+        },
+        {
+          "nutrientId": 1093,
+          "nutrientName": "Sodium, Na",
+          "unitName": "MG",
+          "value": 397
+        },
+        {
+          "nutrientId": 1258,
+          "nutrientName": "Fatty acids, total saturated",
+          "unitName": "G",
+          "value": 8.82
+        }
+      ]
+    },
+    {
+      "fdcId": 2112671,
+      "description": "PROTEIN BAR",
+      "dataType": "Branded",
+      "gtinUpc": "749826656700",
+      "brandOwner": "Rexall Sundown, Inc.",
+      "brandName": "PURE PROTEIN",
+      "servingSize": 60,
+      "servingSizeUnit": "g",
+      "householdServingFullText": "1 BAR",
+      "foodNutrients": [
+        {
+          "nutrientId": 1003,
+          "nutrientName": "Protein",
+          "unitName": "G",
+          "value": 33.3
+        },
+        {
+          "nutrientId": 1004,
+          "nutrientName": "Total lipid (fat)",
+          "unitName": "G",
+          "value": 13.3
+        },
+        {
+          "nutrientId": 1005,
+          "nutrientName": "Carbohydrate, by difference",
+          "unitName": "G",
+          "value": 40
+        },
+        {
+          "nutrientId": 1008,
+          "nutrientName": "Energy",
+          "unitName": "KCAL",
+          "value": 350
+        },
+        {
+          "nutrientId": 2000,
+          "nutrientName": "Total Sugars",
+          "unitName": "G",
+          "value": 3.33
+        },
+        {
+          "nutrientId": 1079,
+          "nutrientName": "Fiber, total dietary",
+          "unitName": "G",
+          "value": 25
+        },
+        {
+          "nutrientId": 1093,
+          "nutrientName": "Sodium, Na",
+          "unitName": "MG",
+          "value": 183
+        },
+        {
+          "nutrientId": 1258,
+          "nutrientName": "Fatty acids, total saturated",
+          "unitName": "G",
+          "value": 4.17
+        }
+      ]
+    },
+    {
+      "fdcId": 2068007,
+      "description": "PROTEIN BAR",
+      "dataType": "Branded",
+      "gtinUpc": "786560553957",
+      "brandOwner": "Rexall Sundown, Inc.",
+      "brandName": "MET-RX",
+      "servingSize": 65,
+      "servingSizeUnit": "g",
+      "householdServingFullText": "1 BAR",
+      "foodNutrients": [
+        {
+          "nutrientId": 1003,
+          "nutrientName": "Protein",
+          "unitName": "G",
+          "value": 30.8
+        },
+        {
+          "nutrientId": 1004,
+          "nutrientName": "Total lipid (fat)",
+          "unitName": "G",
+          "value": 6.15
+        },
+        {
+          "nutrientId": 1005,
+          "nutrientName": "Carbohydrate, by difference",
+          "unitName": "G",
+          "value": 44.6
+        },
+        {
+          "nutrientId": 1008,
+          "nutrientName": "Energy",
+          "unitName": "KCAL",
+          "value": 308
+        },
+        {
+          "nutrientId": 2000,
+          "nutrientName": "Total Sugars",
+          "unitName": "G",
+          "value": 16.9
+        },
+        {
+          "nutrientId": 1079,
+          "nutrientName": "Fiber, total dietary",
+          "unitName": "G",
+          "value": 18.5
+        },
+        {
+          "nutrientId": 1093,
+          "nutrientName": "Sodium, Na",
+          "unitName": "MG",
+          "value": 354
+        },
+        {
+          "nutrientId": 1258,
+          "nutrientName": "Fatty acids, total saturated",
+          "unitName": "G",
+          "value": 0
+        }
+      ]
+    }
+  ]
+}
