@@ -1,0 +1,40 @@
+# Dependencies and build output
+node_modules
+dist
+*.tsbuildinfo
+
+# Test output
+coverage
+playwright-report
+test-results
+blob-report
+playwright/.cache
+
+# Local config and secrets
+*.local
+.env
+.env.*
+!.env.example
+
+# Claude Code: per-machine settings and agent worktrees
+.claude/settings.local.json
+.claude/worktrees/
+
+# Logs
+*.log
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# Personal MYeats backups (food logs): never commit.
+myeats-backup-*.json
+
+# Dexie Cloud CLI client secrets: never commit.
+dexie-cloud.json
+dexie-cloud.key
+.env.local
+.env.*.local
