@@ -38,6 +38,36 @@ Repositories persist; they never compute nutrition. Domain builds the objects; r
 - **C** exports `searchUsda(query, { signal, apiKey })`, `getUsdaDetails(fdcId, ...)`, `lookupBarcodeOff(code, { signal })`, `lookupBarcodeUsda(gtin, ...)`, error classes `OfflineError`, `RateLimitError`, `NotFoundError`, `SourceError`; `resolveUsdaKey(settingsKey)` → `{ key, source: 'device' | 'build' | 'demo' }`; `normaliseBarcode(raw): string | null`.
 - **D** exports a default lazy-loadable `ScannerView` component: `{ onDetected(code: string): void; onClose(): void; onManualEntry?(code: string): void }`, plus `prefetchScanner()`. Test hook: `window.__myeatsInjectBarcode?.(code)` when `import.meta.env.MODE !== 'production'` **or** `localStorage['myeats:e2e'] === '1'`.
 
+## Wave 1 result: APIs available to screens (read the source for details)
+
+- **Domain** (`src/domain/`):
+  - `nutrients.ts`: `scaleNutrients`, `sumNutrients`, `netCarbs`, `deriveKcal`, `withDerivedKcal`, `isIncomplete`, `macroKcalShare`.
+  - `units.ts`: `toBaseAmount`, `convertAmount`, `unitOptions`, `defaultUnit`, `unitLabel`, `amountLabel`, `lbToKg`, `formatKcal`, `formatGrams`, `formatSodium`, `formatPercent`, `parseDecimal`.
+  - `goals.ts`: `goalFor`, `GOAL_DIRECTIONS`, `progress`, `macroShareOfGoal`, `macroKcalMismatch`.
+  - `categories.ts`: `defaultCategory`, `activeCategories`, `sortCategories`.
+  - `recipes.ts`: `batchNutrients`, `perServingNutrients`, `per100gNutrients`, `recipeSnapshot`, `recipeUnitOptions`, `recipeServings`, `isValidServingsPerBatch`.
+  - `weekly.ts`: `dayTotals` (use `.netCarbs` from here for day net carbs), `weeklySummaries`, `dailySeries`.
+  - `search.ts`: `buildIndex(foods, recipes, meals, now)`, `search(index, q, limit)`.
+  - `entries.ts`: `buildFoodEntry`, `buildRecipeEntry`, `buildQuickEntry`, `rescaleEntry`, `cloneEntry`.
+  - Barcodes and mappers: `barcode.ts` (`normaliseBarcode`), `usdaMapper.ts`, `offMapper.ts`.
+- **Repositories** (`import { entries, foods, recipes, meals, categories, goals, weighIns, searchCache, settings } from '../db/repositories'`):
+  - `entries.add(entries, touch)`, `update`, `remove(ids)`, `clearCategory`, `undo(record)`, `forDay`, `forRange`, `nextOrder`.
+  - `foods.save`, `upsertRemote`, `byBarcode`, `saveOverride`, `toggleFavorite`, `softDelete`, `list`.
+  - `categories.add`, `rename`, `reorder`, `archive`, `unarchive`, `setStartsAt`.
+  - `goals.saveToday`, `forDate`; `weighIns.saveToday`, `update`, `remove`; `searchCache.get`, `put`.
+- **Hooks** (`src/hooks/`): `useToday`, `useDay`, `useGoalFor`, `useGoals`, `useCategories`, `useFoods`, `useRecipes`, `useMeals`, `useRecents`, `useWeighIns`, `useSettings`, `useCloudAccount`.
+- **Sources** (`src/sources/`):
+  - `searchUsda(q, {signal, apiKey})`, `getUsdaDetails`, `lookupBarcodeUsda`, `lookupBarcodeOff`, `normaliseQuery`, `resolveUsdaKey(deviceKey)`.
+  - Errors: `OfflineError`, `RateLimitError`, `NotFoundError`, `SourceError`, `isAbortError`.
+- **Scanner** (`src/scanner`): `ScannerView` (lazy; props `{onDetected, onClose}`), `prefetchScanner()`. e2e hook: set `localStorage['myeats:e2e']='1'`, then call `window.__myeatsInjectBarcode(code)`.
+- **UI kit** (`src/components/ui`):
+  - Bars and rows: `NutrientBar`, `EntryRow`, `ResultRow`, `CategoryHeader`, `MealGroupHeader`.
+  - Inputs: `SearchField` (forwardRef), `NumberField`, `RangeChips`.
+  - Overlays and actions: `KeyboardActionBar`, `Menu`, `IconButton`, `AddedFooter`, `MacroLegend`.
+  - Toasts: `Toast` and `useToast()`. `ToastProvider` is already mounted in `App.tsx`.
+  - Plus trakr's Button, Card, Chip, ConfirmDialog, EmptyState, InlineSelect, Mono, PageHeader, SectionLabel, SegmentedBar and Sheet.
+  - Use the domain formatters (`src/domain/units.ts`) for numbers in screens.
+
 ## Wave 2 (after wave 1 is merged)
 
 | Agent | Owns |

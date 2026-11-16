@@ -1,6 +1,13 @@
 import { lazy, Suspense } from 'react';
-import { BrowserRouter, Outlet, Route, Routes, useLocation, useSearchParams } from 'react-router-dom';
-import { TabBar } from './components/ui';
+import {
+  BrowserRouter,
+  Outlet,
+  Route,
+  Routes,
+  useLocation,
+  useSearchParams,
+} from 'react-router-dom';
+import { TabBar, ToastProvider } from './components/ui';
 import UpdatePrompt from './components/UpdatePrompt';
 import { useApplyTheme } from './hooks/useApplyTheme';
 import Diary from './routes/Diary';
@@ -42,26 +49,28 @@ export default function App() {
   useApplyTheme();
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL}>
-      <Routes>
-        <Route element={<Layout />}>
-          <Route path="/" element={<Diary />} />
-          <Route path="/day/:date" element={<Diary />} />
-          <Route path="/foods" element={<Foods />} />
-          <Route path="/foods/new" element={<FoodEditor />} />
-          <Route path="/foods/:id" element={<FoodEditor />} />
-          <Route path="/meals/new" element={<MealEditor />} />
-          <Route path="/meals/:id" element={<MealEditor />} />
-          <Route path="/recipes/new" element={<RecipeEditor />} />
-          <Route path="/recipes/:id" element={<RecipeEditor />} />
-          <Route path="/weight" element={<Weight />} />
-          <Route path="/trends" element={<Trends />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/settings/goals" element={<Goals />} />
-          <Route path="/settings/categories" element={<Categories />} />
-          {UiDemo ? <Route path="/dev/ui" element={<UiDemo />} /> : null}
-          {SeedDemo ? <Route path="/dev/seed" element={<SeedDemo />} /> : null}
-        </Route>
-      </Routes>
+      <ToastProvider>
+        <Routes>
+          <Route element={<Layout />}>
+            <Route path="/" element={<Diary />} />
+            <Route path="/day/:date" element={<Diary />} />
+            <Route path="/foods" element={<Foods />} />
+            <Route path="/foods/new" element={<FoodEditor />} />
+            <Route path="/foods/:id" element={<FoodEditor />} />
+            <Route path="/meals/new" element={<MealEditor />} />
+            <Route path="/meals/:id" element={<MealEditor />} />
+            <Route path="/recipes/new" element={<RecipeEditor />} />
+            <Route path="/recipes/:id" element={<RecipeEditor />} />
+            <Route path="/weight" element={<Weight />} />
+            <Route path="/trends" element={<Trends />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/settings/goals" element={<Goals />} />
+            <Route path="/settings/categories" element={<Categories />} />
+            {UiDemo ? <Route path="/dev/ui" element={<UiDemo />} /> : null}
+            {SeedDemo ? <Route path="/dev/seed" element={<SeedDemo />} /> : null}
+          </Route>
+        </Routes>
+      </ToastProvider>
       <UpdatePrompt />
     </BrowserRouter>
   );
