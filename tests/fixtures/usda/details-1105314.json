@@ -1,0 +1,30 @@
+{
+  "fdcId": 1105314,
+  "description": "Bananas, ripe and slightly ripe, raw",
+  "dataType": "Foundation",
+  "foodPortions": [
+    {
+      "id": 267795,
+      "gramWeight": 115,
+      "sequenceNumber": 1,
+      "amount": 1,
+      "modifier": "Peeled",
+      "measureUnit": {
+        "id": 1119,
+        "name": "Banana",
+        "abbreviation": "Banana"
+      }
+    },
+    {
+      "id": 312674,
+      "gramWeight": 140,
+      "sequenceNumber": 1,
+      "amount": 1,
+      "measureUnit": {
+        "id": 1121,
+        "name": "RACC",
+        "abbreviation": "RACC"
+      }
+    }
+  ]
+}

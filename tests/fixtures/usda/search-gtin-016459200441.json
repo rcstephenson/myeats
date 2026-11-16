@@ -1,0 +1,66 @@
+{
+  "totalHits": 1,
+  "foods": [
+    {
+      "fdcId": 2012128,
+      "description": "BANANA",
+      "dataType": "Branded",
+      "gtinUpc": "016459200441",
+      "brandOwner": "Wonder Natural Foods Corp",
+      "brandName": "BETTER'N PEANUT BUTTER",
+      "servingSize": 32,
+      "servingSizeUnit": "g",
+      "householdServingFullText": "2 Tbsp",
+      "foodNutrients": [
+        {
+          "nutrientId": 1003,
+          "nutrientName": "Protein",
+          "unitName": "G",
+          "value": 12.5
+        },
+        {
+          "nutrientId": 1004,
+          "nutrientName": "Total lipid (fat)",
+          "unitName": "G",
+          "value": 6.25
+        },
+        {
+          "nutrientId": 1005,
+          "nutrientName": "Carbohydrate, by difference",
+          "unitName": "G",
+          "value": 40.6
+        },
+        {
+          "nutrientId": 1008,
+          "nutrientName": "Energy",
+          "unitName": "KCAL",
+          "value": 312
+        },
+        {
+          "nutrientId": 2000,
+          "nutrientName": "Total Sugars",
+          "unitName": "G",
+          "value": 6.25
+        },
+        {
+          "nutrientId": 1079,
+          "nutrientName": "Fiber, total dietary",
+          "unitName": "G",
+          "value": 6.2
+        },
+        {
+          "nutrientId": 1093,
+          "nutrientName": "Sodium, Na",
+          "unitName": "MG",
+          "value": 594
+        },
+        {
+          "nutrientId": 1258,
+          "nutrientName": "Fatty acids, total saturated",
+          "unitName": "G",
+          "value": 0
+        }
+      ]
+    }
+  ]
+}
