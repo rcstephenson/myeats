@@ -4,7 +4,7 @@ MYeats is a local-first, mobile-first progressive web app for logging food and t
 
 Stack: React 18, TypeScript (strict), Tailwind, Dexie (IndexedDB), Zod, Recharts, Vitest, Playwright, `vite-plugin-pwa`, `barcode-detector` (ZXing WebAssembly).
 
-> Status: specification. Implementation follows [`docs/build-plan.md`](docs/build-plan.md).
+> Status: v1 implemented (phases 0–10 in [`docs/build-plan.md`](docs/build-plan.md)). Real-iPhone checks and deployment are still to do; see the iPhone QA checklist in the build plan.
 
 ## Documentation
 
@@ -12,6 +12,8 @@ Stack: React 18, TypeScript (strict), Tailwind, Dexie (IndexedDB), Zod, Recharts
 - [`docs/design-system.md`](docs/design-system.md): the visual language (trakr's Signal with an orange accent).
 - [`docs/build-plan.md`](docs/build-plan.md): phased milestones and acceptance criteria.
 - [`docs/requirements.md`](docs/requirements.md): the owner's original answers.
+- [`docs/backup-format.md`](docs/backup-format.md): the JSON backup format.
+- [`docs/implementation-plan.md`](docs/implementation-plan.md): how the first build was split across parallel agents.
 - [`AGENTS.md`](AGENTS.md): rules for coding agents.
 
 ## Data lives on your device
@@ -37,7 +39,7 @@ npx playwright install webkit chromium   # once, for e2e tests
 npm run dev                               # http://localhost:5173
 ```
 
-The scripts are the same as trakr's: `dev`, `build`, `preview`, `typecheck`, `lint`, `test`, `e2e`, `format`.
+The scripts are the same as trakr's: `dev`, `build`, `preview`, `typecheck`, `lint`, `test`, `e2e`, `format`, plus `size` (main-bundle budget check, run after `build`). In development, `/dev/ui` shows the component kit and `/dev/seed` generates demo data.
 
 To test barcode scanning on a phone you need HTTPS: deploy, or use `vite --host` with a local certificate.
 

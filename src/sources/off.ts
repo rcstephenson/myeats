@@ -1,10 +1,10 @@
 // Open Food Facts client (SPEC §6.3). Barcode lookup only; OFF search is rate-limited, USDA does search.
 import type { RemoteFood } from '../domain/types';
 import { mapOffProduct, type OffResponse } from '../domain/offMapper';
+import { version as APP_VERSION } from '../../package.json';
 import { fetchJson, NotFoundError } from './errors';
 
 const APP_NAME = 'MYeats';
-const APP_VERSION = '0.1.0'; // keep in step with package.json
 
 const FIELDS = 'code,product_name,brands,nutriments,serving_size,serving_quantity';
 

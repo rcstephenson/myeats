@@ -27,6 +27,14 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      # SPEC §10: typecheck, lint, unit and e2e tests must pass before a deploy.
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm test
+      - run: npx playwright install --with-deps webkit chromium
+      - run: npm run e2e
+        env:
+          CI: 'true'
       - run: npm run build
         env:
           # Served from /<repo>/, not the domain root.
@@ -38,6 +46,8 @@ jobs:
           VITE_DEXIE_CLOUD_URL: ${{ vars.DEXIE_CLOUD_URL }}
           # Free USDA FoodData Central key (rate-limit only, ships in the bundle). Repository VARIABLE.
           VITE_USDA_API_KEY: ${{ vars.USDA_API_KEY }}
+      # Main-bundle budget (SPEC §9).
+      - run: npm run size
       # GitHub Pages has no SPA rewrites: serve the app for unknown paths (deep links, refreshes).
       - run: cp dist/index.html dist/404.html
       - uses: actions/upload-pages-artifact@v3
