@@ -9,7 +9,10 @@ const APP_NAME = 'MYeats';
 const FIELDS = 'code,product_name,brands,nutriments,serving_size,serving_quantity';
 
 /** Query OFF with the code as scanned (OFF normalises itself). null when not found. */
-export async function lookupBarcodeOff(code: string, { signal }: { signal?: AbortSignal } = {}): Promise<RemoteFood | null> {
+export async function lookupBarcodeOff(
+  code: string,
+  { signal }: { signal?: AbortSignal } = {},
+): Promise<RemoteFood | null> {
   const url =
     `https://world.openfoodfacts.org/api/v2/product/${encodeURIComponent(code.trim())}.json` +
     `?fields=${FIELDS}&app_name=${APP_NAME}&app_version=${APP_VERSION}`;
