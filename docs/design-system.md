@@ -19,7 +19,7 @@ Like trakr, the code is the source of truth once it exists. If this document and
 3. **The calorie bar is ink.** Calories are the main number, and the accent stays reserved for indicators.
 4. **No PR colour.** trakr's `--pr` amber is dropped.
 5. **Warm neutrals.** The light theme is **Oat** and the dark theme is **Espresso**, replacing trakr's cool Paper and Graphite, so the two apps are easy to tell apart.
-6. **Ruled lines, not a dot grid.** The page background is faint horizontal ruled lines (1 px every 28 px, 4% ink), like a notebook, instead of trakr's dot grid.
+6. **A plain background.** The page background is flat `--bg` with no pattern; trakr's dot grid is dropped.
 7. **Layout:** Cronometer's information order (summary, then meal groups), drawn with Signal's hairline ledger rows.
 
 ## 2. Colour tokens

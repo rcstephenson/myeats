@@ -67,14 +67,6 @@
     @apply bg-bg font-sans text-sm text-ink antialiased;
     margin: 0;
     min-height: 100dvh;
-    /* Faint ruled notebook lines (a food diary), replacing trakr's dot grid: 1px rule every 28px,
-       4% ink. Content sits on surface cards, so the rules only show in the margins. */
-    background-image: linear-gradient(
-      to bottom,
-      transparent 27px,
-      color-mix(in srgb, var(--ink) 4%, transparent) 27px
-    );
-    background-size: 100% 28px;
   }
   :focus-visible {
     outline: 2px solid var(--accent-ink);
