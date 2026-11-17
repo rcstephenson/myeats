@@ -1,61 +1,22 @@
 # myeats
 
-myeats is a local-first, mobile-first progressive web app for logging food and tracking calories, macros (protein, net carbs, fat), fiber, sugar, saturated fat and sodium against a daily goal, plus body-weight weigh-ins. It is a companion to [trakr](https://github.com/rcstephenson/trakr), with the same stack and look and separate data.
+A simple food diary for your phone. Log what you eat and see your calories, protein, carbs and fat against a daily goal. You can also track your body weight.
 
-Stack: React 18, TypeScript (strict), Tailwind, Dexie (IndexedDB), Zod, Recharts, Vitest, Playwright, `vite-plugin-pwa`, `barcode-detector` (ZXing WebAssembly).
+**Open it:** https://rcstephenson.github.io/myeats/
 
-> Status: v1 implemented (phases 0–10 in [`docs/build-plan.md`](docs/build-plan.md)). Real-iPhone checks and deployment are still to do; see the iPhone QA checklist in the build plan.
+## What you can do
 
-## Documentation
+- Search foods, or scan a barcode with your camera.
+- Save your own foods, meals and recipes.
+- See how today compares with your goal, and your weekly trends.
+- Log your weight.
 
-- [`SPEC.md`](SPEC.md): what the app does and how it is built.
-- [`docs/design-system.md`](docs/design-system.md): the visual language (trakr's Signal with an orange accent).
-- [`docs/build-plan.md`](docs/build-plan.md): phased milestones and acceptance criteria.
-- [`docs/requirements.md`](docs/requirements.md): the owner's original answers.
-- [`docs/backup-format.md`](docs/backup-format.md): the JSON backup format.
-- [`docs/implementation-plan.md`](docs/implementation-plan.md): how the first build was split across parallel agents.
-- [`AGENTS.md`](AGENTS.md): rules for coding agents.
+## Your data stays on your device
 
-## Data lives on your device
+There's no account and no sign-up. Everything is stored in your browser and works offline.
 
-All data is stored in IndexedDB in the browser you use. iOS can clear storage for sites that aren't installed to the home screen, so **install the app** (Share → Add to Home Screen) and **export a JSON backup regularly** from Settings, or turn on cloud sync.
+On iPhone, tap **Share → Add to Home Screen** so your data isn't cleared, and export a backup now and then from **Settings**.
 
-## Food data
+Food data comes from [USDA FoodData Central](https://fdc.nal.usda.gov/) and [Open Food Facts](https://world.openfoodfacts.org/).
 
-Search uses [USDA FoodData Central](https://fdc.nal.usda.gov/). Barcodes use [Open Food Facts](https://world.openfoodfacts.org/) (ODbL), falling back to USDA Branded foods. Results you open or log are cached on the device, so they work offline.
-
-The USDA API needs a free key from https://fdc.nal.usda.gov/api-key-signup. Set it in either place:
-
-- **Dev:** add `VITE_USDA_API_KEY=...` to `.env.local`.
-- **Deploy:** add a repository **Variable** (not a secret) named `USDA_API_KEY`. The key ends up in the public bundle, which is acceptable for this rate-limit-only key.
-
-Without a key the app falls back to the heavily rate-limited `DEMO_KEY`. You can also set a key per device in Settings → Food database.
-
-## Local development
-
-```bash
-npm ci
-npx playwright install webkit chromium   # once, for e2e tests
-npm run dev                               # http://localhost:5173
-```
-
-The scripts are the same as trakr's: `dev`, `build`, `preview`, `typecheck`, `lint`, `test`, `e2e`, `format`, plus `size` (main-bundle budget check, run after `build`). In development, `/dev/ui` shows the component kit and `/dev/seed` generates demo data.
-
-To test barcode scanning on a phone you need HTTPS: deploy, or use `vite --host` with a local certificate.
-
-## Deployment
-
-Deployment works the same as trakr: GitHub Pages via `.github/workflows/deploy.yml`, served at `https://rcstephenson.github.io/myeats/`. In repository Settings → Pages, set Source to **GitHub Actions**.
-
-## Cloud sync (Dexie Cloud, optional)
-
-myeats uses its **own** Dexie Cloud database, separate from trakr's. The free plan allows multiple databases, so both apps can sync for free.
-
-1. From this repo's root, run `npx dexie-cloud create`. It writes `dexie-cloud.json` and `dexie-cloud.key`, both of which are git-ignored and must never be committed.
-2. Whitelist the app's origins:
-   - `npx dexie-cloud whitelist http://localhost:5173`
-   - `npx dexie-cloud whitelist https://rcstephenson.github.io`
-3. Set the database URL:
-   - **Dev:** `VITE_DEXIE_CLOUD_URL=https://xxxx.dexie.cloud` in `.env.local`.
-   - **Deploy:** a repository Variable named `DEXIE_CLOUD_URL`.
-4. On each device, go to Settings → Account & sync and sign in with the same email.
+Developers: see [`docs/development.md`](docs/development.md).
