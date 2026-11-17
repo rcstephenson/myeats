@@ -5,24 +5,25 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Signal design tokens (docs/design-system.md). Paper = light, Graphite = dark. */
+/* myeats design tokens (docs/design-system.md). Oat = light, Espresso = dark: warm neutrals,
+   distinct from trakr's cool Paper/Graphite. */
 :root,
 [data-theme='light'] {
-  --bg: #eef1f4;
-  --surface: #f8fafb;
-  --raised: #ffffff;
-  --ink: #0a0e14;
-  --muted: #5b6572;
-  --hairline: #d3d9e0;
+  --bg: #f3ece0;
+  --surface: #faf6ef;
+  --raised: #fffdf9;
+  --ink: #1d1712;
+  --muted: #6a5f53;
+  --hairline: #e3d8c7;
   /* Form-control boundary: >= 3:1 on bg, surface and raised (WCAG 1.4.11). */
-  --hairline-strong: #7d8794;
+  --hairline-strong: #8c7f6e;
   --accent: #ff6a13;
-  --on-accent: #0a0e14;
+  --on-accent: #1d1712;
   --accent-ink: #b23c00;
   --danger: #c62839;
   /* Primary buttons: ink on paper (light), accent fill (dark). */
-  --primary: #0a0e14;
-  --on-primary: #f8fafb;
+  --primary: #1d1712;
+  --on-primary: #faf6ef;
   /* Nutrient bars (docs/design-system.md §2). Macro colours are for bars, chart marks and legend
      squares only, never text. */
   --kcal: var(--ink);
@@ -31,30 +32,30 @@
   --fat: #8a3fd1;
   --secondary-nutrient: var(--muted);
   --track: var(--hairline);
-  --scrim: rgb(10 14 20 / 0.5);
+  --scrim: rgb(29 23 18 / 0.5);
   color-scheme: light;
 }
 [data-theme='dark'] {
-  --bg: #0a0c10;
-  --surface: #11151b;
-  --raised: #171c24;
-  --ink: #e8edf2;
-  --muted: #8893a0;
-  --hairline: #232a33;
-  --hairline-strong: #657080;
+  --bg: #15110d;
+  --surface: #1d1813;
+  --raised: #26201a;
+  --ink: #f2eae0;
+  --muted: #a5998a;
+  --hairline: #352d25;
+  --hairline-strong: #7a6e60;
   --accent: #ff7a29;
-  --on-accent: #0a0c10;
+  --on-accent: #15110d;
   --accent-ink: #ff8a3d;
   --danger: #ff6b7a;
   --primary: #ff7a29;
-  --on-primary: #0a0c10;
+  --on-primary: #15110d;
   --kcal: var(--ink);
   --protein: #3ddc84;
   --carbs: #5b9dff;
   --fat: #b98cff;
   --secondary-nutrient: var(--muted);
   --track: var(--hairline);
-  --scrim: rgb(0 0 0 / 0.65);
+  --scrim: rgb(8 6 4 / 0.65);
   color-scheme: dark;
 }
 @layer base {
@@ -66,13 +67,14 @@
     @apply bg-bg font-sans text-sm text-ink antialiased;
     margin: 0;
     min-height: 100dvh;
-    /* Faint graph-paper dot grid: 24px pitch, 9% ink at a 1px core. */
-    background-image: radial-gradient(
-      color-mix(in srgb, var(--ink) 9%, transparent) 1px,
-      transparent 1.2px
+    /* Faint ruled notebook lines (a food diary), replacing trakr's dot grid: 1px rule every 28px,
+       4% ink. Content sits on surface cards, so the rules only show in the margins. */
+    background-image: linear-gradient(
+      to bottom,
+      transparent 27px,
+      color-mix(in srgb, var(--ink) 4%, transparent) 27px
     );
-    background-size: 24px 24px;
-    background-position: 11px 11px;
+    background-size: 100% 28px;
   }
   :focus-visible {
     outline: 2px solid var(--accent-ink);

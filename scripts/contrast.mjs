@@ -13,8 +13,8 @@ function block(selectorRe) {
 }
 
 const themes = {
-  Paper: block(String.raw`:root,\s*\[data-theme='light'\]`),
-  Graphite: block(String.raw`\[data-theme='dark'\]`),
+  Oat: block(String.raw`:root,\s*\[data-theme='light'\]`),
+  Espresso: block(String.raw`\[data-theme='dark'\]`),
 };
 
 function lum(hex) {
@@ -42,12 +42,12 @@ const rows = [
 const fmt = (t, fg, bgs) =>
   bgs.map((bg) => contrast(themes[t][fg], themes[t][bg]).toFixed(2)).join(' / ');
 
-console.log('| Pair | Paper (bg / surface / raised) | Graphite (bg / surface / raised) |');
+console.log('| Pair | Oat (bg / surface / raised) | Espresso (bg / surface / raised) |');
 console.log('|---|---|---|');
 for (const [name, fg, bgs] of rows) {
-  console.log(`| ${name} | ${fmt('Paper', fg, bgs)} | ${fmt('Graphite', fg, bgs)} |`);
+  console.log(`| ${name} | ${fmt('Oat', fg, bgs)} | ${fmt('Espresso', fg, bgs)} |`);
 }
 const oa = (t) => contrast(themes[t]['on-accent'], themes[t].accent).toFixed(2);
-console.log(`| on-accent on accent | ${oa('Paper')} | ${oa('Graphite')} |`);
+console.log(`| on-accent on accent | ${oa('Oat')} | ${oa('Espresso')} |`);
 const op = (t) => contrast(themes[t]['on-primary'], themes[t].primary).toFixed(2);
-console.log(`| on-primary on primary | ${op('Paper')} | ${op('Graphite')} |`);
+console.log(`| on-primary on primary | ${op('Oat')} | ${op('Espresso')} |`);

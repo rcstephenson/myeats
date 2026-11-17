@@ -1,6 +1,6 @@
-# myeats design system: Signal (orange variant)
+# myeats design system: Signal (warm variant)
 
-myeats uses trakr's **Signal** design language unchanged, except for what this document lists. Read trakr's [`docs/design-system.md`](https://github.com/rcstephenson/trakr/blob/main/docs/design-system.md) first. The principles, typography (Geist and Geist Mono), spacing, radii, hairlines, the dot grid, focus rules, motion and voice all carry over.
+myeats uses trakr's **Signal** design language unchanged, except for what this document lists. Read trakr's [`docs/design-system.md`](https://github.com/rcstephenson/trakr/blob/main/docs/design-system.md) first. The principles, typography (Geist and Geist Mono), spacing, radii, hairlines, focus rules, motion and voice all carry over.
 
 These carry over without change, so copy them from trakr and adjust only the tokens:
 
@@ -14,23 +14,39 @@ Like trakr, the code is the source of truth once it exists. If this document and
 
 ## 1. What changes
 
-1. **The accent is orange, not lime.** It keeps exactly the same role as an indicator light: the active tab tick, focus ring, today marker, selected chip underline, added-tick and the primary button on Graphite. It is never used as an area.
+1. **The accent is orange, not lime.** It keeps exactly the same role as an indicator light: the active tab tick, focus ring, today marker, selected chip underline, added-tick and the primary button in the dark theme. It is never used as an area.
 2. **Macro colours are new.** Protein, net carbs and fat each get a colour, used *only* for their bars, chart marks and 8 px legend squares, never for text.
 3. **The calorie bar is ink.** Calories are the main number, and the accent stays reserved for indicators.
 4. **No PR colour.** trakr's `--pr` amber is dropped.
-5. **Layout:** Cronometer's information order (summary, then meal groups), drawn with Signal's hairline ledger rows.
+5. **Warm neutrals.** The light theme is **Oat** and the dark theme is **Espresso**, replacing trakr's cool Paper and Graphite, so the two apps are easy to tell apart.
+6. **Ruled lines, not a dot grid.** The page background is faint horizontal ruled lines (1 px every 28 px, 4% ink), like a notebook, instead of trakr's dot grid.
+7. **Layout:** Cronometer's information order (summary, then meal groups), drawn with Signal's hairline ledger rows.
 
 ## 2. Colour tokens
 
-The neutral tokens (`--bg`, `--surface`, `--raised`, `--ink`, `--muted`, `--hairline`, `--hairline-strong`, `--danger`, `--scrim`) are identical to trakr. New or changed values:
+Neutral tokens (warm, replacing trakr's):
 
-| Token | Tailwind | Paper (light) | Graphite (dark) | Role |
+| Token | Oat (light) | Espresso (dark) |
+|---|---|---|
+| `--bg` | `#f3ece0` | `#15110d` |
+| `--surface` | `#faf6ef` | `#1d1813` |
+| `--raised` | `#fffdf9` | `#26201a` |
+| `--ink` | `#1d1712` | `#f2eae0` |
+| `--muted` | `#6a5f53` | `#a5998a` |
+| `--hairline` | `#e3d8c7` | `#352d25` |
+| `--hairline-strong` | `#8c7f6e` | `#7a6e60` |
+| `--danger` | `#c62839` | `#ff6b7a` |
+| `--scrim` | `rgb(29 23 18 / 0.5)` | `rgb(8 6 4 / 0.65)` |
+
+Accent and nutrient tokens:
+
+| Token | Tailwind | Oat (light) | Espresso (dark) | Role |
 |---|---|---|---|---|
 | `--accent` | `bg-accent` | `#ff6a13` | `#ff7a29` | Indicator fills: tab tick, today marker, added tick, small squares |
-| `--on-accent` | `text-on-accent` | `#0a0e14` | `#0a0c10` | Text on an accent fill |
+| `--on-accent` | `text-on-accent` | `#1d1712` | `#15110d` | Text on an accent fill |
 | `--accent-ink` | `text-accent`, `border-accent`, `bg-accent-ink` | `#b23c00` | `#ff8a3d` | Accent text, lines, active-state bars and the focus ring |
-| `--primary` | `bg-primary` | `#0a0e14` (ink) | `#ff7a29` | Primary button fill (as in trakr: ink on Paper, accent on Graphite) |
-| `--on-primary` | `text-on-primary` | `#f8fafb` | `#0a0c10` | Primary button label |
+| `--primary` | `bg-primary` | `#1d1712` (ink) | `#ff7a29` | Primary button fill (as in trakr: ink in light, accent in dark) |
+| `--on-primary` | `text-on-primary` | `#faf6ef` | `#15110d` | Primary button label |
 | `--kcal` | `bg-kcal` | = `--ink` | = `--ink` | Calorie bar fill |
 | `--protein` | `bg-protein`, `stroke-protein` | `#1f8f4e` | `#3ddc84` | Protein bar, chart and legend |
 | `--carbs` | `bg-carbs`, `stroke-carbs` | `#2364d2` | `#5b9dff` | Net carbs bar, chart and legend |
@@ -40,18 +56,22 @@ The neutral tokens (`--bg`, `--surface`, `--raised`, `--ink`, `--muted`, `--hair
 
 **Removed:** `--pr`.
 
-### 2.1 Contrast (WCAG 2.x, computed)
+### 2.1 Contrast (WCAG 2.x, computed by `node scripts/contrast.mjs`)
 
-| Pair | Paper (bg / surface / raised) | Graphite (bg / surface / raised) | Verdict |
+| Pair | Oat (bg / surface / raised) | Espresso (bg / surface / raised) | Verdict |
 |---|---|---|---|
-| `accent-ink` as text | 5.23 / 5.67 / 5.93 | 8.35 / 7.81 / 7.29 | AA text in both themes |
-| `accent` fill | 2.53 / 2.74 / 2.87 | 7.52 / 7.03 / 6.57 | **Paper: decoration only.** Anything that must be perceived (active bars, focus) uses `accent-ink`, the same rule as trakr's lime |
-| `on-accent` on `accent` | 6.74 | 7.52 | AA text |
-| `protein` | 3.63 / 3.94 / 4.12 | 10.97 / 10.26 / 9.58 | ≥ 3:1 graphic in both |
-| `carbs` | 4.84 / 5.24 / 5.49 | 7.19 / 6.72 / 6.28 | ≥ 3:1 graphic in both |
-| `fat` | 4.99 / 5.40 / 5.66 | 7.70 / 7.20 / 6.72 | ≥ 3:1 graphic in both |
+| `muted` as text | 5.30 / 5.78 / 6.13 | 6.73 / 6.31 / 5.77 | AA text in both themes |
+| `accent-ink` as text | 5.05 / 5.51 / 5.84 | 8.01 / 7.51 / 6.87 | AA text in both themes |
+| `danger` as text | 4.75 / 5.18 / 5.49 | 6.83 / 6.40 / 5.86 | AA text in both themes |
+| `hairline-strong` | 3.33 / 3.63 / 3.84 | 3.78 / 3.55 / 3.24 | ≥ 3:1 form-control boundary |
+| `accent` fill | 2.44 / 2.66 / 2.82 | 7.22 / 6.77 / 6.19 | **Oat: decoration only.** Anything that must be perceived (active bars, focus) uses `accent-ink` |
+| `on-accent` on `accent` | 6.19 | 7.22 | AA text |
+| `on-primary` on `primary` | 16.47 | 7.22 | AA text |
+| `protein` | 3.51 / 3.82 / 4.06 | 10.53 / 9.87 / 9.03 | ≥ 3:1 graphic in both |
+| `carbs` | 4.68 / 5.10 / 5.40 | 6.90 / 6.47 / 5.91 | ≥ 3:1 graphic in both |
+| `fat` | 4.82 / 5.25 / 5.57 | 7.39 / 6.93 / 6.33 | ≥ 3:1 graphic in both |
 
-Add these rows to the contrast script and table when the tokens land. Macro colours still never carry text: labels are `text-ink` and `text-muted`, and every bar has a text label and numbers, so colour is never the only signal.
+Re-run the script and update this table whenever a token changes. Macro colours still never carry text: labels are `text-ink` and `text-muted`, and every bar has a text label and numbers, so colour is never the only signal.
 
 ## 3. Typography additions
 

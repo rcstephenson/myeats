@@ -1,7 +1,7 @@
 export type ThemePreference = 'light' | 'dark' | 'system';
 
 /** Page background per theme; mirrors `--bg` in src/styles/index.css (used when CSS is unavailable). */
-const THEME_COLOR = { light: '#eef1f4', dark: '#0a0c10' } as const;
+const THEME_COLOR = { light: '#f3ece0', dark: '#15110d' } as const;
 
 /**
  * Points every `<meta name="theme-color">` at the *applied* theme's background. index.html ships
