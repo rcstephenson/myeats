@@ -17,14 +17,14 @@ const whey = makeFood({
   servings: [{ id: 'sv1', label: '1 scoop', amount: 30 }],
 });
 
-test('fresh install: five categories, no goal prompt state, log weight row', async ({ page }) => {
+test('fresh install: five categories, no goal prompt state, no weigh-in row', async ({ page }) => {
   await openApp(page);
   for (const c of ['Breakfast', 'Lunch', 'Meal 3', 'Dinner', 'Snacks']) {
     await expect(section(page, c)).toBeVisible();
   }
   await expect(page.getByRole('link', { name: 'Set daily goal' })).toHaveAttribute('href', '/settings/goals');
   await expect(page.getByRole('meter')).toHaveCount(0);
-  await expect(page.getByRole('button', { name: /Log weight/ })).toBeVisible();
+  await expect(page.getByText(/Log weight|Weigh-in/)).toHaveCount(0);
   await expect(page.getByRole('link', { name: 'Settings' })).toHaveAttribute('href', '/settings');
   await expect(overlay(page)).toBeHidden();
 });
@@ -155,19 +155,6 @@ test('save as meal passes the date and category to the meal editor', async ({ pa
   await section(page, 'Dinner').getByRole('button', { name: 'Dinner options' }).click();
   await page.getByRole('menuitem', { name: 'Save as meal' }).click();
   await expect(page).toHaveURL(new RegExp(`/meals/new\\?fromDate=${dateKey(0)}&category=cat-dinner$`));
-});
-
-test('weigh-in: log today, then the row links to Weight', async ({ page }) => {
-  await openApp(page);
-  await page.getByRole('button', { name: /Log weight/ }).click();
-  const sheet = page.getByRole('dialog', { name: 'Log weight' });
-  await sheet.getByLabel('Weight', { exact: true }).fill('182.4');
-  await sheet.getByLabel('Body fat').fill('18');
-  await page.getByRole('button', { name: 'Save', exact: true }).click();
-  const row = page.getByRole('link', { name: /Weigh-in/ });
-  await expect(row).toContainText('182.4 lb · 82.7 kg · 18%');
-  await row.click();
-  await expect(page).toHaveURL(/\/weight$/);
 });
 
 test('date input navigates to a past day; future days redirect to today', async ({ page }) => {

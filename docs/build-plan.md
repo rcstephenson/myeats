@@ -174,7 +174,7 @@ The phases are ordered so that each one ends with something deployable and testa
 
 **Scope**
 
-- Weight tab (3.8) and the Diary weigh-in row (3.1.4).
+- Weight tab (3.8). The Diary has no weigh-in row (3.1.4).
 - `WeightChart`: raw points, range chips, lb axis, and a lb/kg tooltip.
 
 **Acceptance**

@@ -111,8 +111,6 @@ This follows Cronometer's layout (summary, then meal groups) in Signal styling. 
 │ MEAL 3                            ＋  │
 │ DINNER                            ＋  │
 │ SNACKS                            ＋  │
-├───────────────────────────────────────┤
-│ WEIGH-IN   182.4 lb · 82.7 kg         │  today's weigh-in, or "Log weight ＋"
 └───────────────────────────────────────┘
    Diary     Foods     Weight     Trends
 ```
@@ -159,10 +157,9 @@ This follows Cronometer's layout (summary, then meal groups) in Signal styling. 
 - Tapping the label opens a native date input (`max` = today).
 - If the app is open across midnight, it switches to the new day when the page becomes visible again (`visibilitychange`) and once a minute while visible.
 
-#### 3.1.4 Weigh-in row
+#### 3.1.4 Weigh-ins
 
-- If today has a weigh-in, the row shows `182.4 lb · 82.7 kg` (and body fat if recorded). Tapping it opens the Weight tab.
-- If not, the row reads **Log weight ＋** and opens an inline sheet with a weight field (lb), an optional body fat field, and Save.
+The Diary has no weigh-in row. Weight is logged only on the Weight tab (3.8).
 
 #### 3.1.5 Past days (`/day/:date`)
 
@@ -701,3 +698,4 @@ The owner can change any of these; they're recorded here so agents don't guess.
 | D5 | Weigh-ins per day | One per date; saving again replaces it |
 | D6 | Nested recipes | Not in v1 |
 | D7 | Add overlay after adding | Stays open for multi-add, with Done (Cronometer closes after each add) |
+| D8 | Weigh-in row on the Diary | Removed at the owner's request. Weight is logged on the Weight tab only |

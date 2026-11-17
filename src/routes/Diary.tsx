@@ -2,7 +2,6 @@ import { useMemo, useRef, useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import * as entryRepo from '../db/repositories/entries';
 import * as settingsRepo from '../db/repositories/settings';
-import * as weighInRepo from '../db/repositories/weighIns';
 import { activeCategories, defaultCategory } from '../domain/categories';
 import { dayTotals } from '../domain/weekly';
 import type { Category, Entry } from '../domain/types';
@@ -12,14 +11,12 @@ import { DiaryHeader } from '../components/diary/DiaryHeader';
 import { EntrySheet } from '../components/diary/EntrySheet';
 import { planCopy, shiftDate, shortDateLabel, visibleCategories } from '../components/diary/model';
 import { SummaryCard } from '../components/diary/SummaryCard';
-import { WeighInRow } from '../components/diary/WeighInRow';
 import { buttonClass, ConfirmDialog, Sheet, useToast, Button, type MenuItem } from '../components/ui';
 import { useCategories } from '../hooks/useCategories';
 import { useDay } from '../hooks/useDay';
 import { useGoalFor } from '../hooks/useGoalFor';
 import { useSettings } from '../hooks/useSettings';
 import { useToday } from '../hooks/useToday';
-import { useWeighIns } from '../hooks/useWeighIns';
 import { fromDateKey, nowIso } from '../lib/dates';
 import { newId } from '../lib/ids';
 
@@ -42,7 +39,6 @@ export default function Diary() {
   const goal = useGoalFor(date);
   const allCategories = useCategories({ includeArchived: true });
   const settings = useSettings();
-  const weighIns = useWeighIns();
 
   const [editing, setEditing] = useState<Entry | null>(null);
   const [clearing, setClearing] = useState<Category | null>(null);
@@ -59,8 +55,6 @@ export default function Diary() {
   if (dateParam !== undefined && (fromDateKey(dateParam) === null || dateParam >= today)) {
     return <Navigate to="/" replace />;
   }
-
-  const weighIn = weighIns?.find((w) => w.date === date);
 
   const undoToast = (message: string, record: Promise<entryRepo.UndoRecord>) => {
     toast.show({
@@ -182,12 +176,6 @@ export default function Diary() {
               />
             );
           })}
-
-      <WeighInRow
-        weighIn={weighIn}
-        canLog={isToday && weighIns !== undefined}
-        onSave={(lb, bf) => void weighInRepo.saveToday(lb, bf, today)}
-      />
 
       {editing ? (
         <EntrySheet
