@@ -4,7 +4,7 @@ import { mapOffProduct, type OffResponse } from '../domain/offMapper';
 import { version as APP_VERSION } from '../../package.json';
 import { fetchJson, NotFoundError } from './errors';
 
-const APP_NAME = 'MYeats';
+const APP_NAME = 'myeats';
 
 const FIELDS = 'code,product_name,brands,nutriments,serving_size,serving_quantity';
 

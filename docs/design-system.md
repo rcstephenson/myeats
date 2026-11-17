@@ -1,6 +1,6 @@
-# MYeats design system: Signal (orange variant)
+# myeats design system: Signal (orange variant)
 
-MYeats uses trakr's **Signal** design language unchanged, except for what this document lists. Read trakr's [`docs/design-system.md`](https://github.com/rcstephenson/trakr/blob/main/docs/design-system.md) first. The principles, typography (Geist and Geist Mono), spacing, radii, hairlines, the dot grid, focus rules, motion and voice all carry over.
+myeats uses trakr's **Signal** design language unchanged, except for what this document lists. Read trakr's [`docs/design-system.md`](https://github.com/rcstephenson/trakr/blob/main/docs/design-system.md) first. The principles, typography (Geist and Geist Mono), spacing, radii, hairlines, the dot grid, focus rules, motion and voice all carry over.
 
 These carry over without change, so copy them from trakr and adjust only the tokens:
 

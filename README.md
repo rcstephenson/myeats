@@ -1,6 +1,6 @@
-# MYeats
+# myeats
 
-MYeats is a local-first, mobile-first progressive web app for logging food and tracking calories, macros (protein, net carbs, fat), fiber, sugar, saturated fat and sodium against a daily goal, plus body-weight weigh-ins. It is a companion to [trakr](https://github.com/rcstephenson/trakr), with the same stack and look and separate data.
+myeats is a local-first, mobile-first progressive web app for logging food and tracking calories, macros (protein, net carbs, fat), fiber, sugar, saturated fat and sodium against a daily goal, plus body-weight weigh-ins. It is a companion to [trakr](https://github.com/rcstephenson/trakr), with the same stack and look and separate data.
 
 Stack: React 18, TypeScript (strict), Tailwind, Dexie (IndexedDB), Zod, Recharts, Vitest, Playwright, `vite-plugin-pwa`, `barcode-detector` (ZXing WebAssembly).
 
@@ -49,7 +49,7 @@ Deployment works the same as trakr: GitHub Pages via `.github/workflows/deploy.y
 
 ## Cloud sync (Dexie Cloud, optional)
 
-MYeats uses its **own** Dexie Cloud database, separate from trakr's. The free plan allows multiple databases, so both apps can sync for free.
+myeats uses its **own** Dexie Cloud database, separate from trakr's. The free plan allows multiple databases, so both apps can sync for free.
 
 1. From this repo's root, run `npx dexie-cloud create`. It writes `dexie-cloud.json` and `dexie-cloud.key`, both of which are git-ignored and must never be committed.
 2. Whitelist the app's origins:

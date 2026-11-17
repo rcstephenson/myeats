@@ -56,7 +56,7 @@ export function AccountSectionView({ account, busy, error, onSignIn, onSignOut }
         ) : (
           <SettingsRow
             label="Cloud sync"
-            description="Optional. Back up and share your data across devices. MYeats works fully offline without it."
+            description="Optional. Back up and share your data across devices. myeats works fully offline without it."
           >
             <Button variant="secondary" disabled={busy} onClick={onSignIn}>
               <LogIn size={18} aria-hidden="true" />

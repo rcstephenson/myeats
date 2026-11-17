@@ -1,4 +1,4 @@
-# MYeats build plan
+# myeats build plan
 
 The phases are ordered so that each one ends with something deployable and testable. One phase is one PR, or a short series of PRs, and each must pass `typecheck`, `lint`, `test` and `e2e` before it merges. Section numbers refer to [`SPEC.md`](../SPEC.md).
 
@@ -6,7 +6,7 @@ The phases are ordered so that each one ends with something deployable and testa
 
 - An agent working a phase implements only that phase's scope.
 - Anything the spec doesn't settle goes in the PR description as a question. Don't invent product behaviour.
-- When the spec and trakr's code differ, the spec wins for MYeats.
+- When the spec and trakr's code differ, the spec wins for myeats.
 
 ---
 
@@ -19,7 +19,7 @@ The phases are ordered so that each one ends with something deployable and testa
   - `.github/workflows/deploy.yml`, adding the `VITE_USDA_API_KEY: ${{ vars.USDA_API_KEY }}` env
   - `src/lib/{ids,dates,theme,cloud*}`
   - `src/components/ui/*`, `UpdatePrompt`, `index.css`
-- Rename everything to MYeats (`myeats`). Update the PWA manifest: name `MYeats`, theme colour, and new icons (a simple placeholder mark in ink and orange is fine).
+- Rename everything to myeats (always lower case). Update the PWA manifest: name `myeats`, theme colour, and new icons (a simple placeholder mark in ink and orange is fine).
 - Apply the design tokens from `docs/design-system.md` §2, and render the new tokens on `/dev/ui`.
 - Add the app shell: tab bar (Diary, Foods, Weight, Trends) and placeholder routes.
 - Add a Playwright `webkit` iPhone project as the primary e2e project, keeping Chromium.

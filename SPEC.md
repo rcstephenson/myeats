@@ -1,6 +1,6 @@
-# MYeats: product and technical specification
+# myeats: product and technical specification
 
-MYeats is a local-first, mobile-first progressive web app for logging what you eat and tracking calories, macros, fiber, sugar, saturated fat and sodium against a daily goal, plus body-weight weigh-ins. It is a companion to [trakr](https://github.com/rcstephenson/trakr) (workout logging). It shares trakr's stack, conventions and visual language, but it is a separate repo, app and database, and the two apps share no data.
+myeats is a local-first, mobile-first progressive web app for logging what you eat and tracking calories, macros, fiber, sugar, saturated fat and sodium against a daily goal, plus body-weight weigh-ins. It is a companion to [trakr](https://github.com/rcstephenson/trakr) (workout logging). It shares trakr's stack, conventions and visual language, but it is a separate repo, app and database, and the two apps share no data.
 
 Companion documents:
 
@@ -578,7 +578,7 @@ type Settings = {
 
 ### 6.3 Open Food Facts (`sources/off.ts`) and barcodes
 
-- **Lookup:** `GET https://world.openfoodfacts.org/api/v2/product/{barcode}.json?fields=code,product_name,brands,nutriments,serving_size,serving_quantity&app_name=MYeats&app_version=<version>`.
+- **Lookup:** `GET https://world.openfoodfacts.org/api/v2/product/{barcode}.json?fields=code,product_name,brands,nutriments,serving_size,serving_quantity&app_name=myeats&app_version=<version>`.
   - OFF asks for an identifying User-Agent. Browsers don't allow setting one, so identify with the `app_name` and `app_version` parameters.
   - Product reads are rate-limited at about 100 per minute, which is fine.
   - Do **not** use OFF search: it is limited to about 10 per minute, and USDA handles search.

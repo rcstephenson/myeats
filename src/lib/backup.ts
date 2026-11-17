@@ -258,11 +258,11 @@ export function parseBackup(json: unknown): ParseBackupResult {
     }
   }
   if (value === null || typeof value !== 'object' || Array.isArray(value)) {
-    return { ok: false, errors: ['This file is not a MYeats backup.'] };
+    return { ok: false, errors: ['This file is not a myeats backup.'] };
   }
   const head = value as { app?: unknown; backupVersion?: unknown };
   if (head.app !== 'myeats') {
-    return { ok: false, errors: ['This file is not a MYeats backup (app is not "myeats").'] };
+    return { ok: false, errors: ['This file is not a myeats backup (app is not "myeats").'] };
   }
   if (head.backupVersion !== 1) {
     const shown = head.backupVersion === undefined ? 'missing' : JSON.stringify(head.backupVersion);
@@ -353,7 +353,7 @@ export async function exportBackupFile(): Promise<ExportResult> {
     const file = new File([text], name, { type: 'application/json' });
     if (navigator.canShare({ files: [file] })) {
       try {
-        await navigator.share({ files: [file], title: 'MYeats backup' });
+        await navigator.share({ files: [file], title: 'myeats backup' });
         return 'shared';
       } catch (err) {
         if (err instanceof DOMException && err.name === 'AbortError') return 'cancelled';

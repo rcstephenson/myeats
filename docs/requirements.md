@@ -248,7 +248,7 @@ Match trakr's format (SPEC.md, design-system doc, README) plus a phased build pl
 Does the app have a name?
 *[Default: I can suggest some]*
 
-**Answer:** MYeats
+**Answer:** myeats
 
 ---
 

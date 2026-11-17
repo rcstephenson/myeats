@@ -30,7 +30,7 @@ desktop.ini
 .vscode/
 .idea/
 
-# Personal MYeats backups (food logs): never commit.
+# Personal myeats backups (food logs): never commit.
 myeats-backup-*.json
 
 # Dexie Cloud CLI client secrets: never commit.

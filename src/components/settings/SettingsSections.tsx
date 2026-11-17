@@ -218,7 +218,7 @@ export function AboutSection() {
         label="Storage"
         description={
           persisted === false
-            ? 'Not protected: Safari may clear data from sites that are not installed. Add MYeats to your Home Screen and export backups regularly.'
+            ? 'Not protected: Safari may clear data from sites that are not installed. Add myeats to your Home Screen and export backups regularly.'
             : persisted
               ? 'Protected from automatic clean-up'
               : 'Checking…'

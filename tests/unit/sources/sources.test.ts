@@ -115,7 +115,7 @@ describe('lookupBarcodeOff', () => {
     const f = await lookupBarcodeOff('3017620422003');
     const url = new URL(fetchMock.mock.calls[0]?.[0] as string);
     expect(url.origin + url.pathname).toBe('https://world.openfoodfacts.org/api/v2/product/3017620422003.json');
-    expect(url.searchParams.get('app_name')).toBe('MYeats');
+    expect(url.searchParams.get('app_name')).toBe('myeats');
     expect(url.searchParams.get('app_version')).toBe('0.1.0');
     expect(url.searchParams.get('fields')).toBe('code,product_name,brands,nutriments,serving_size,serving_quantity');
     expect(f?.name).toBe('Nutella');

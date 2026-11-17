@@ -30,8 +30,8 @@ export default defineConfig(({ mode }) => {
         registerType: 'prompt',
         includeAssets: ['icons/apple-touch-icon.png', 'icons/icon.svg'],
         manifest: {
-          name: 'MYeats',
-          short_name: 'MYeats',
+          name: 'myeats',
+          short_name: 'myeats',
           description: 'Log food and track calories and macros.',
           display: 'standalone',
           orientation: 'portrait',

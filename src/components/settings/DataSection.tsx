@@ -63,7 +63,7 @@ export function DataSection() {
     }
     const parsed = parseBackup(json);
     if (!parsed.ok) {
-      setStatus({ kind: 'error', text: `Not a valid MYeats backup. ${parsed.errors[0]}` });
+      setStatus({ kind: 'error', text: `Not a valid myeats backup. ${parsed.errors[0]}` });
       return;
     }
     setPending({ json, summary: parsed.summary });
@@ -121,7 +121,7 @@ export function DataSection() {
             Export
           </Button>
         </SettingsRow>
-        <SettingsRow label="Import backup" description="Restore from a MYeats backup file">
+        <SettingsRow label="Import backup" description="Restore from a myeats backup file">
           <Button variant="secondary" disabled={busy} onClick={() => fileRef.current?.click()}>
             <Upload size={18} aria-hidden="true" />
             Import

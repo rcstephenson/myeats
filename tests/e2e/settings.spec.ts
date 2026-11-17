@@ -265,7 +265,7 @@ test('import: Replace needs DELETE, and invalid files are rejected', async ({ pa
     mimeType: 'application/json',
     buffer: Buffer.from(JSON.stringify({ app: 'trakr', backupVersion: 1 })),
   });
-  await expect(page.getByRole('alert')).toContainText('Not a valid MYeats backup');
+  await expect(page.getByRole('alert')).toContainText('Not a valid myeats backup');
   await page.getByTestId('backup-file-input').setInputFiles({
     name: 'bad.json',
     mimeType: 'application/json',
