@@ -5,8 +5,9 @@ myeats is a local-first, mobile-first progressive web app for logging what you e
 Companion documents:
 
 - [`docs/design-system.md`](docs/design-system.md): the visual language. It is trakr's "Signal" with a new accent and macro colours.
-- [`docs/build-plan.md`](docs/build-plan.md): phased milestones with acceptance criteria, for the agents implementing this.
-- [`docs/requirements.md`](docs/requirements.md): the owner's answered questionnaire. This spec is derived from it; if they disagree, raise it rather than guess.
+- [`docs/development.md`](docs/development.md): local setup, the USDA key, deployment and cloud sync.
+- [`docs/backup-format.md`](docs/backup-format.md): the JSON backup format.
+- [`docs/iphone-qa.md`](docs/iphone-qa.md): the manual iPhone checklist and performance budgets.
 - [`AGENTS.md`](AGENTS.md): working rules for coding agents.
 
 ---
@@ -620,11 +621,11 @@ type Settings = {
   - HTTPS.
   - iOS 17+ in Safari or a home-screen PWA. In standalone mode iOS may ask for camera permission again each launch; that's expected.
   - There is no `navigator.vibrate` on iOS, so confirm a scan visually.
-- **Phase 0 spike:** confirm on a real iPhone, both in Safari and installed to the home screen, that the deployed build scans a UPC-A and an EAN-13.
+- **Device check:** scanning a UPC-A and an EAN-13 on a real iPhone, in Safari and installed, is part of [`docs/iphone-qa.md`](docs/iphone-qa.md).
 
 ### 6.6 CORS
 
-Both APIs are expected to allow browser calls from any origin. **The Phase 0 spike must confirm this from the deployed GitHub Pages origin.** If either doesn't, stop and report it; it would need a small proxy, such as a Cloudflare Worker, which changes the architecture.
+Both APIs allow browser calls from any origin (`Access-Control-Allow-Origin: *`, checked when the app was built). If that ever changes, the app would need a small proxy, such as a Cloudflare Worker, which changes the architecture.
 
 ## 7. iOS and responsiveness requirements
 
@@ -651,7 +652,7 @@ Signal from trakr, with an orange accent and per-macro colours. Full details in 
 
 ## 9. Performance budgets
 
-These are measured on an iPhone 12-class device running the production build, installed. Each is checked in Phase 10 and kept in CI where it can be automated.
+These are measured on an iPhone 12-class device running the production build, installed. The bundle budget runs in CI; the rest are checked by hand with [`docs/iphone-qa.md`](docs/iphone-qa.md).
 
 | Interaction | Budget |
 |---|---|
@@ -685,13 +686,13 @@ These are measured on an iPhone 12-class device running the production build, in
   - The scanner e2e covers the manual-entry path, plus a test hook that injects a fake detector result.
 - Do not commit personal data such as goals, body weight or food logs. The repo is public.
 
-## 11. Decisions made for unanswered or ambiguous points
+## 11. Product decisions
 
-The owner can change any of these; they're recorded here so agents don't guess.
+The owner can change any of these; they're recorded here so nobody has to guess.
 
 | # | Point | Decision |
 |---|---|---|
-| D1 | Accent colour (questionnaire 2.2 unanswered) | Signal orange (`#ff6a13` Paper, `#ff7a29` Graphite), with protein green, net carbs blue and fat violet. Every colour is a single token, so it's a one-line change |
+| D1 | Accent colour | Orange (`#ff6a13` light, `#ff7a29` dark), with protein green, net carbs blue and fat violet. Every colour is a single token, so it's a one-line change |
 | D2 | "Log today only" vs. forgetting to log yesterday's dinner | Strict: no adding to past days. Past entries can be copied to today. If this proves annoying, a later version can allow adding to yesterday only |
 | D3 | Can past entries and weigh-ins be edited or deleted? | Past diary entries: read-only. Weigh-ins: editable and deletable (typo fixes), never backdated |
 | D4 | Calorie bar colour | Ink (neutral), so the accent stays an indicator and the macro colours stay distinct |

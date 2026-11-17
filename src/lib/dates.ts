@@ -1,7 +1,5 @@
 // Date helpers. Weeks start on Monday. All dates are handled in local time.
 
-const DAY_MS = 24 * 60 * 60 * 1000;
-
 /** Local midnight of the given date. */
 export function startOfDay(date: Date): Date {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate());
@@ -13,31 +11,6 @@ export function startOfWeek(date: Date): Date {
   const offset = (d.getDay() + 6) % 7; // Mon=0 ... Sun=6
   d.setDate(d.getDate() - offset);
   return d;
-}
-
-/** Sunday 23:59:59.999 (local) of the week containing `date`. */
-export function endOfWeek(date: Date): Date {
-  const d = startOfWeek(date);
-  d.setDate(d.getDate() + 7);
-  return new Date(d.getTime() - 1);
-}
-
-/** The seven days (Mon-Sun) of the week containing `date`. */
-export function weekDays(date: Date): Date[] {
-  const start = startOfWeek(date);
-  return Array.from({ length: 7 }, (_, i) => {
-    const d = new Date(start);
-    d.setDate(start.getDate() + i);
-    return d;
-  });
-}
-
-export function isSameDay(a: Date, b: Date): boolean {
-  return (
-    a.getFullYear() === b.getFullYear() &&
-    a.getMonth() === b.getMonth() &&
-    a.getDate() === b.getDate()
-  );
 }
 
 /** Local calendar date as `YYYY-MM-DD`. */
@@ -55,42 +28,7 @@ export function fromDateKey(key: string): Date | null {
   return toDateKey(d) === key ? d : null;
 }
 
-/** ISO instant for 12:00 local on the given `YYYY-MM-DD` day, or null when malformed. */
-export function noonIso(key: string): string | null {
-  const d = fromDateKey(key);
-  if (!d) return null;
-  d.setHours(12, 0, 0, 0);
-  return d.toISOString();
-}
-
-/** "Oct 28" (short month + day) for a date. */
-export function formatShortDate(date: Date): string {
-  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-}
-
 /** Current instant as an ISO-8601 string. */
 export function nowIso(): string {
   return new Date().toISOString();
-}
-
-/** Whole calendar days from `from` to `to` (positive when `to` is later). */
-export function diffInDays(from: Date, to: Date): number {
-  return Math.round((startOfDay(to).getTime() - startOfDay(from).getTime()) / DAY_MS);
-}
-
-/** "Today", "Yesterday", weekday name within the last week, otherwise "Mar 4". */
-export function formatRelativeDay(input: Date | string, now: Date = new Date()): string {
-  const date = typeof input === 'string' ? new Date(input) : input;
-  const diff = diffInDays(date, now);
-  if (diff === 0) return 'Today';
-  if (diff === 1) return 'Yesterday';
-  if (diff === -1) return 'Tomorrow';
-  if (diff > 1 && diff < 7) return date.toLocaleDateString('en-US', { weekday: 'long' });
-  const sameYear = date.getFullYear() === now.getFullYear();
-  return date.toLocaleDateString(
-    'en-US',
-    sameYear
-      ? { month: 'short', day: 'numeric' }
-      : { month: 'short', day: 'numeric', year: 'numeric' },
-  );
 }

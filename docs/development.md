@@ -44,8 +44,6 @@ myeats uses its **own** Dexie Cloud database, separate from trakr's. The free pl
 
 - [`SPEC.md`](../SPEC.md): what the app does and how it is built.
 - [`design-system.md`](design-system.md): the visual language.
-- [`build-plan.md`](build-plan.md): phased milestones, acceptance criteria and the iPhone QA checklist.
-- [`requirements.md`](requirements.md): the owner's original answers.
+- [`iphone-qa.md`](iphone-qa.md): the manual iPhone checklist and performance budgets.
 - [`backup-format.md`](backup-format.md): the JSON backup format.
-- [`implementation-plan.md`](implementation-plan.md): how the first build was split across parallel agents.
 - [`AGENTS.md`](../AGENTS.md): rules for coding agents.

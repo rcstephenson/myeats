@@ -2,15 +2,7 @@
 
 myeats uses trakr's **Signal** design language unchanged, except for what this document lists. Read trakr's [`docs/design-system.md`](https://github.com/rcstephenson/trakr/blob/main/docs/design-system.md) first. The principles, typography (Geist and Geist Mono), spacing, radii, hairlines, focus rules, motion and voice all carry over.
 
-These carry over without change, so copy them from trakr and adjust only the tokens:
-
-- `src/styles/index.css`
-- `tailwind.config.ts`
-- `src/components/ui/*`: Button, Card, Chip, ConfirmDialog, EmptyState, InlineSelect, Mono, PageHeader, SectionLabel, SegmentedBar, Sheet, TabBar
-- `src/lib/theme.ts`
-- the `/dev/ui` page
-
-Like trakr, the code is the source of truth once it exists. If this document and the code disagree, fix the document.
+Tokens live in `src/styles/index.css` and `tailwind.config.ts`; components in `src/components/ui/`. The `/dev/ui` page (development only) renders every component and token in both themes. The code is the source of truth: if this document and the code disagree, fix the document.
 
 ## 1. What changes
 
