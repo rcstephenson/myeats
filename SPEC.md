@@ -662,7 +662,7 @@ These are measured on an iPhone 12-class device running the production build, in
 | Repeat remote query (cached) to results shown | < 50 ms |
 | Tap scan to live camera (after permission) | < 1 s |
 
-- **Main JS bundle:** under 180 KB gzip, excluding lazy chunks (scanner, Recharts routes). Add a `size-limit`-style check in CI, or a script reading the Vite manifest.
+- **Main JS bundle:** under 180 KB gzip, excluding lazy chunks (scanner, Recharts routes). The optional Dexie Cloud sync code (only bundled when `VITE_DEXIE_CLOUD_URL` is set) loads at startup but sits in its own `cloud` chunk with a separate 100 KB gzip budget. `scripts/size-check.mjs` (`npm run size`) checks both in CI.
 - **Lighthouse (mobile):** Performance ≥ 90, Accessibility ≥ 95, installable PWA.
 - **Rendering:** Diary and result lists render without layout shift. Result rows have fixed heights. Virtualise only if a list exceeds about 200 rows.
 

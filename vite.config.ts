@@ -78,9 +78,18 @@ export default defineConfig(({ mode }) => {
               )
             )
               return 'recharts';
+            // Optional Dexie Cloud sync (only bundled when VITE_DEXIE_CLOUD_URL is set): its own chunk so
+            // the size check can budget it separately from the app (scripts/size-check.mjs).
+            if (
+              /[\\/]node_modules[\\/](dexie-cloud-addon|dexie-cloud-common|rxjs|yjs|y-protocols|y-dexie|lib0)[\\/]/.test(
+                id,
+              )
+            )
+              return 'cloud';
             if (/[\\/]node_modules[\\/](dexie|dexie-react-hooks)[\\/]/.test(id)) return 'dexie';
             if (/[\\/]node_modules[\\/]zod[\\/]/.test(id)) return 'zod';
-            if (/[\\/]node_modules[\\/](barcode-detector|zxing-wasm)[\\/]/.test(id)) return 'scanner';
+            if (/[\\/]node_modules[\\/](barcode-detector|zxing-wasm)[\\/]/.test(id))
+              return 'scanner';
             return undefined;
           },
         },
