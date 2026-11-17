@@ -107,10 +107,10 @@ test('creates a food from per-serving label values and stores per-100', async ({
   await page.getByLabel('Total carbs per 1 bar').fill('18,5');
   await page.getByLabel('Fiber per 1 bar').fill('3');
   await expect(page.getByTestId('net-carbs')).toContainText('Net carbs = 15.5 g');
-  await page.getByLabel('Barcode').fill('12345');
+  await page.getByLabel('Barcode', { exact: true }).fill('12345');
   await page.getByRole('button', { name: 'Save food' }).click();
   await expect(page.getByText('Not a valid barcode')).toBeVisible();
-  await page.getByLabel('Barcode').fill('016459200441');
+  await page.getByLabel('Barcode', { exact: true }).fill('016459200441');
   await page.getByRole('button', { name: 'Save food' }).click();
   await expect(page).toHaveURL(/\/foods$/);
   await expect(page.getByRole('link', { name: /Protein bar/ })).toBeVisible();
@@ -387,4 +387,20 @@ test('recipe picker: a USDA result is saved to foods and added as an ingredient'
   await expect(page.getByLabel(`Amount of ${name}`, { exact: false })).toBeVisible();
   const foods = await all(page, 'foods');
   expect(foods).toEqual([expect.objectContaining({ source: 'usda' })]);
+});
+
+test('food form: the camera button scans a barcode into the Barcode field', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('myeats:e2e', '1'));
+  await open(page);
+  await page.goto('/foods/new');
+  await page.getByRole('button', { name: 'Scan barcode' }).click();
+  await expect
+    .poll(() => page.evaluate(() => typeof window.__myeatsInjectBarcode))
+    .toBe('function');
+  await page.evaluate(() => window.__myeatsInjectBarcode?.('036000291452'));
+  // UPC-A is stored as GTIN-13, and the scanner closes.
+  await expect(page.getByLabel('Barcode', { exact: true })).toHaveValue('0036000291452');
+  await expect
+    .poll(() => page.evaluate(() => typeof window.__myeatsInjectBarcode))
+    .toBe('undefined');
 });

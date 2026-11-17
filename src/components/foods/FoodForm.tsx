@@ -1,12 +1,13 @@
-import { useState } from 'react';
-import { Plus, Star, Trash2 } from 'lucide-react';
+import { Suspense, useState } from 'react';
+import { Plus, ScanBarcode, Star, Trash2 } from 'lucide-react';
 import { foods } from '../../db/repositories';
 import { normaliseBarcode } from '../../domain/barcode';
 import { formatNumber } from '../../domain/units';
 import type { Food, NutrientKey } from '../../domain/types';
 import { nowIso } from '../../lib/dates';
+import { prefetchScanner, ScannerView } from '../../scanner';
 import { newId } from '../../lib/ids';
-import { Button, Card, NumberField } from '../ui';
+import { Button, Card, IconButton, NumberField } from '../ui';
 import { Field, Segmented, TextField } from './fields';
 import {
   NUTRITION_KEY,
@@ -51,6 +52,7 @@ export function FoodForm({ initial, prefill, onSaved, onCancel }: FoodFormProps)
   );
   const [errors, setErrors] = useState<DraftErrors>({});
   const [saving, setSaving] = useState(false);
+  const [scanning, setScanning] = useState(false);
   const patch = (p: Partial<FoodDraft>) => setDraft((d) => ({ ...d, ...p }));
   const isRemote = initial !== undefined && initial.source !== 'custom';
   const unit = draft.baseUnit;
@@ -139,18 +141,40 @@ export function FoodForm({ initial, prefill, onSaved, onCancel }: FoodFormProps)
           onChange={(brand) => patch({ brand })}
           autoComplete="off"
         />
-        <TextField
-          label="Barcode"
-          value={draft.barcode}
-          inputMode="numeric"
-          onChange={(barcode) => patch({ barcode })}
-          onBlur={() => {
-            const n = normaliseBarcode(draft.barcode.trim());
-            if (n) patch({ barcode: n });
-          }}
-          error={errors.barcode}
-          autoComplete="off"
-        />
+        <div className="flex items-start gap-2">
+          <TextField
+            className="min-w-0 flex-1"
+            label="Barcode"
+            value={draft.barcode}
+            inputMode="numeric"
+            onChange={(barcode) => patch({ barcode })}
+            onBlur={() => {
+              const n = normaliseBarcode(draft.barcode.trim());
+              if (n) patch({ barcode: n });
+            }}
+            error={errors.barcode}
+            autoComplete="off"
+          />
+          <IconButton
+            aria-label="Scan barcode"
+            className="mt-5 rounded-card border border-hairline-strong bg-raised"
+            onPointerEnter={prefetchScanner}
+            onClick={() => setScanning(true)}
+          >
+            <ScanBarcode size={20} aria-hidden="true" />
+          </IconButton>
+        </div>
+        {scanning ? (
+          <Suspense fallback={null}>
+            <ScannerView
+              onClose={() => setScanning(false)}
+              onDetected={(code) => {
+                setScanning(false);
+                patch({ barcode: normaliseBarcode(code) ?? code });
+              }}
+            />
+          </Suspense>
+        ) : null}
         <Field label="Base unit">
           <Segmented
             label="Base unit"
