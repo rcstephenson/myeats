@@ -1,1 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" fill="#0a0e14"/><polygon points="112,400 112,112 176,112 256,250 336,112 400,112 400,400 336,400 336,222 256,360 176,222 176,400" fill="#ff6a13"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><g transform="translate(256 266) scale(1) translate(-256 -266)">
+    <path d="M256 160 C214 128 126 126 102 214 C80 296 132 418 198 432 C226 438 240 424 256 424 C272 424 286 438 314 432 C380 418 432 296 410 214 C386 126 298 128 256 160 Z" fill="#d93025"/>
+    <path d="M256 160 C298 128 386 126 410 214 C432 296 380 418 314 432 C286 438 272 424 256 424 Z" fill="#c1271d"/>
+    <ellipse cx="172" cy="232" rx="30" ry="52" transform="rotate(-24 172 232)" fill="#ffffff" opacity="0.28"/>
+    <path d="M256 166 C252 138 258 112 274 90" fill="none" stroke="#5b3a1e" stroke-width="16" stroke-linecap="round"/>
+    <path d="M276 124 C292 82 342 66 378 78 C360 120 312 138 276 124 Z" fill="#3c9a46"/>
+    <path d="M286 118 C312 102 340 92 366 84" fill="none" stroke="#2c7a35" stroke-width="5" stroke-linecap="round"/>
+  </g></svg>
