@@ -101,7 +101,7 @@ test('categories: add, rename, retime, archive, restore and the last-active guar
     await expect(page.getByRole('textbox', { name: `Name of ${name}` })).toHaveCount(0);
   }
   await expect(names).toHaveCount(2);
-  await page.getByRole('button', { name: 'Remove Snacks' }).click();
+  await page.getByRole('button', { name: 'Remove Snacks / Other' }).click();
   await page.getByRole('dialog').getByRole('button', { name: 'Remove' }).click();
   await expect(names).toHaveCount(1);
   await expect(page.getByRole('button', { name: 'Remove Breakfast' })).toBeDisabled();

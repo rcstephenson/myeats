@@ -356,7 +356,7 @@ Saving a remote food (USDA or OFF) never edits the cached original. It creates a
 | 2 | Lunch | 11:00 |
 | 3 | Meal 3 | 14:30 |
 | 4 | Dinner | 17:30 |
-| 5 | Snacks | 20:30 |
+| 5 | Snacks / Other | 20:30 |
 
 ## 4. Data model
 

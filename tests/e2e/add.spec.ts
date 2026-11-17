@@ -104,11 +104,11 @@ test('category chip: defaults to the tapped category and can change', async ({ p
   await plus(page, 'Dinner').click();
   const chip = overlay(page).getByLabel('Category');
   await expect(chip).toHaveValue('cat-dinner');
-  await chip.selectOption({ label: 'Snacks' });
+  await chip.selectOption({ label: 'Snacks / Other' });
   await overlay(page).getByRole('list', { name: 'Recent' }).getByRole('button').first().click();
   await addButton(page).click();
   await page.getByRole('button', { name: 'Done' }).click();
-  await expect(section(page, 'Snacks').getByText('Rolled oats')).toBeVisible();
+  await expect(section(page, 'Snacks / Other').getByText('Rolled oats')).toBeVisible();
   await expect(section(page, 'Dinner').getByText('Rolled oats')).toHaveCount(0);
 });
 
@@ -134,20 +134,20 @@ test('local results are instant, a unit change converts the amount', async ({ pa
 
 test('quick add 250 kcal to Snacks; macro-only quick add derives kcal', async ({ page }) => {
   await openApp(page, { goals: [makeGoal()] });
-  await plus(page, 'Snacks').click();
+  await plus(page, 'Snacks / Other').click();
   await overlay(page).getByRole('button', { name: /Quick add/ }).click();
   const sheet = page.getByRole('dialog', { name: 'Quick add' });
   await expect(addButton(page)).toBeDisabled();
   await sheet.getByLabel('kcal', { exact: true }).fill('250');
   await addButton(page).click();
   await page.getByRole('button', { name: 'Done' }).click();
-  const snacks = section(page, 'Snacks');
+  const snacks = section(page, 'Snacks / Other');
   await expect(snacks.getByText('Quick add')).toBeVisible();
   await expect(snacks).toContainText('250 kcal');
   await expect(page.getByRole('meter', { name: /^Calories 250 of 2,000 calories, 1,750 left$/ })).toBeVisible();
 
   // Macros only: 20 P + 10 C + 5 F = 80 + 40 + 45 = 165 (derived, marked with an approx sign).
-  await plus(page, 'Snacks').click();
+  await plus(page, 'Snacks / Other').click();
   await overlay(page).getByRole('button', { name: /Quick add/ }).click();
   const second = page.getByRole('dialog', { name: 'Quick add' });
   await second.getByLabel('Label').fill('Shake');
@@ -298,7 +298,7 @@ test.describe('scanner', () => {
   test('known barcode opens the Amount panel from local foods', async ({ page }) => {
     const bar = makeFood({ name: 'Protein bar', barcode: '5449000000996' });
     await openApp(page, { foods: [bar] });
-    await plus(page, 'Snacks').click();
+    await plus(page, 'Snacks / Other').click();
     await overlay(page).getByRole('button', { name: 'Scan barcode' }).click();
     await expect.poll(() => page.evaluate(() => typeof window.__myeatsInjectBarcode)).toBe('function');
     await page.evaluate(() => window.__myeatsInjectBarcode?.('5449000000996'));
@@ -313,7 +313,7 @@ test.describe('scanner', () => {
     await page.route(USDA_URL, (r) =>
       r.fulfill({ status: 200, contentType: 'application/json', body: '{"foods":[]}' }),
     );
-    await plus(page, 'Snacks').click();
+    await plus(page, 'Snacks / Other').click();
     await overlay(page).getByRole('button', { name: 'Scan barcode' }).click();
     await expect.poll(() => page.evaluate(() => typeof window.__myeatsInjectBarcode)).toBe('function');
     await page.evaluate(() => window.__myeatsInjectBarcode?.('4006381333931'));
@@ -331,7 +331,7 @@ test.describe('scanner', () => {
     await page.route(OFF_URL, (r) =>
       r.fulfill({ status: 200, contentType: 'application/json', body: fixture('off/5449000000996.json') }),
     );
-    await plus(page, 'Snacks').click();
+    await plus(page, 'Snacks / Other').click();
     await overlay(page).getByRole('button', { name: 'Scan barcode' }).click();
     await expect.poll(() => page.evaluate(() => typeof window.__myeatsInjectBarcode)).toBe('function');
     await page.evaluate(() => window.__myeatsInjectBarcode?.('5449000000996'));
@@ -339,11 +339,11 @@ test.describe('scanner', () => {
     await expect(panel).toBeVisible();
     await addButton(page).click();
     await page.getByRole('button', { name: 'Done' }).click();
-    await expect(section(page, 'Snacks').getByText('Coca-Cola Original')).toBeVisible();
+    await expect(section(page, 'Snacks / Other').getByText('Coca-Cola Original')).toBeVisible();
 
     // A second scan works offline: the food is now local.
     await page.route(OFF_URL, (r) => r.abort());
-    await plus(page, 'Snacks').click();
+    await plus(page, 'Snacks / Other').click();
     await overlay(page).getByRole('button', { name: 'Scan barcode' }).click();
     await expect.poll(() => page.evaluate(() => typeof window.__myeatsInjectBarcode)).toBe('function');
     await page.evaluate(() => window.__myeatsInjectBarcode?.('5449000000996'));

@@ -15,7 +15,7 @@ export interface CategoryHeaderProps {
 export function CategoryHeader({ name, kcal, onAdd, menu }: CategoryHeaderProps) {
   return (
     <div className="flex min-h-touch items-center justify-between border-b border-hairline pl-gutter">
-      <h3 className="micro text-ink">{name}</h3>
+      <h3 className="font-mono text-xs font-bold uppercase tracking-micro text-ink">{name}</h3>
       <div className="flex items-center">
         {kcal ? <span className="num mr-1 text-xs text-muted">{kcal}</span> : null}
         {onAdd ? (

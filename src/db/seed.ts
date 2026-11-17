@@ -7,7 +7,7 @@ export const DEFAULT_CATEGORIES: Category[] = [
   { id: 'cat-lunch', name: 'Lunch', order: 2, startsAt: '11:00', archivedAt: null },
   { id: 'cat-meal3', name: 'Meal 3', order: 3, startsAt: '14:30', archivedAt: null },
   { id: 'cat-dinner', name: 'Dinner', order: 4, startsAt: '17:30', archivedAt: null },
-  { id: 'cat-snacks', name: 'Snacks', order: 5, startsAt: '20:30', archivedAt: null },
+  { id: 'cat-snacks', name: 'Snacks / Other', order: 5, startsAt: '20:30', archivedAt: null },
 ];
 
 /**

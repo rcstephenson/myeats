@@ -77,7 +77,7 @@ Re-run the script and update this table whenever a token changes. Macro colours 
 
 - Summary numbers (`1,620 / 2,400`): Geist Mono, tabular, `text-ink`. The calorie value is one step larger than the macro values.
 - `N left` uses `text-muted`. `N over` uses `text-danger` together with the word "over", never colour alone.
-- Category headers are micro-labels (`BREAKFAST`), as with trakr's section labels. Drop trakr's `01 /` indices on the Diary to keep it minimal; Settings and Trends may keep them.
+- Category headers (`BREAKFAST`) are bold uppercase mono at 13 px in `text-ink`, a step stronger than trakr's muted micro-labels so each meal group stands out from the page. Drop trakr's `01 /` indices on the Diary to keep it minimal; Settings and Trends may keep them.
 - Entry names use Geist sans in `text-ink`; the amount and macro line use mono in `text-muted`.
 
 ## 4. New components

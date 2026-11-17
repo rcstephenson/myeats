@@ -19,7 +19,7 @@ const whey = makeFood({
 
 test('fresh install: five categories, no goal prompt state, no weigh-in row', async ({ page }) => {
   await openApp(page);
-  for (const c of ['Breakfast', 'Lunch', 'Meal 3', 'Dinner', 'Snacks']) {
+  for (const c of ['Breakfast', 'Lunch', 'Meal 3', 'Dinner', 'Snacks / Other']) {
     await expect(section(page, c)).toBeVisible();
   }
   await expect(page.getByRole('link', { name: 'Set daily goal' })).toHaveAttribute('href', '/settings/goals');
