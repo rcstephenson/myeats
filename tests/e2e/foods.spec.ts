@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
+import { fixture } from './helpers';
 
 // All network is blocked; data is seeded straight into IndexedDB (db "myeats", see src/db/schema.ts).
 
@@ -347,4 +348,43 @@ test('deleting a custom food is a soft delete after confirmation', async ({ page
   await expect(page.getByRole('link', { name: /Doomed/ })).toHaveCount(0);
   const row = (await all(page, 'foods')).find((f) => f.name === 'Doomed');
   expect(row?.deletedAt).toBeTruthy();
+});
+
+test('meal picker: Create food prefills the search text and adds the new food', async ({
+  page,
+}) => {
+  await open(page);
+  await page.goto('/meals/new');
+  await page.getByRole('button', { name: 'Add item' }).click();
+  const dialog = page.getByRole('dialog');
+  await dialog.getByRole('searchbox').fill('Greek yogurt');
+  await dialog.getByRole('button', { name: 'Create food' }).click();
+  const form = page.getByRole('dialog', { name: 'Create food' });
+  await expect(form.getByLabel('Name', { exact: true })).toHaveValue('Greek yogurt');
+  await form.getByLabel('Calories per 100 g').fill('97');
+  await form.getByRole('button', { name: 'Save food' }).click();
+  await expect(page.getByLabel('Amount of Greek yogurt')).toBeVisible();
+  const foods = await all(page, 'foods');
+  expect(foods).toEqual([expect.objectContaining({ name: 'Greek yogurt', source: 'custom' })]);
+});
+
+test('recipe picker: a USDA result is saved to foods and added as an ingredient', async ({
+  page,
+}) => {
+  await open(page);
+  await page.route(/api\.nal\.usda\.gov/, (r) =>
+    r.fulfill({ contentType: 'application/json', body: fixture('usda/search-banana.json') }),
+  );
+  await page.goto('/recipes/new');
+  await page.getByRole('button', { name: 'Add ingredient' }).click();
+  const dialog = page.getByRole('dialog');
+  await dialog.getByRole('searchbox').fill('banana');
+  const results = dialog.getByRole('list', { name: 'USDA results' });
+  const first = results.getByRole('button').first();
+  await expect(first).toBeVisible();
+  const name = ((await first.textContent()) ?? '').split(' · ')[0].replace(/\d.*$/, '').trim();
+  await first.click();
+  await expect(page.getByLabel(`Amount of ${name}`, { exact: false })).toBeVisible();
+  const foods = await all(page, 'foods');
+  expect(foods).toEqual([expect.objectContaining({ source: 'usda' })]);
 });

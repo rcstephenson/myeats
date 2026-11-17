@@ -21,7 +21,16 @@ import { buildFoodEntry, buildQuickEntry, buildRecipeEntry } from '../../domain/
 import { buildIndex, search } from '../../domain/search';
 import { recipeUnitOptions } from '../../domain/recipes';
 import { formatKcal, unitOptions, type UnitOption } from '../../domain/units';
-import type { Category, Entry, Food, LastAmount, Recipe, RemoteFood, SavedMeal, UnitRef } from '../../domain/types';
+import type {
+  Category,
+  Entry,
+  Food,
+  LastAmount,
+  Recipe,
+  RemoteFood,
+  SavedMeal,
+  UnitRef,
+} from '../../domain/types';
 import { useCategories } from '../../hooks/useCategories';
 import { useFoods } from '../../hooks/useFoods';
 import { useMeals } from '../../hooks/useMeals';
@@ -32,7 +41,7 @@ import { nowIso } from '../../lib/dates';
 import { newId } from '../../lib/ids';
 import { prefetchScanner, ScannerView } from '../../scanner';
 import { lookupBarcodeOff } from '../../sources/off';
-import { getUsdaDetails, lookupBarcodeUsda } from '../../sources/usda';
+import { lookupBarcodeUsda } from '../../sources/usda';
 import { resolveUsdaKey } from '../../sources/usdaKey';
 import {
   AddedFooter,
@@ -49,13 +58,7 @@ import { AmountPanel } from './AmountPanel';
 import { MealPanel } from './MealPanel';
 import { Panel } from './Panel';
 import { QuickAddPanel, type QuickValues } from './QuickAddPanel';
-import {
-  defaultFoodAmount,
-  defaultRecipeAmount,
-  foodSnap,
-  recipeSnap,
-  type Snap,
-} from './amounts';
+import { defaultFoodAmount, defaultRecipeAmount, foodSnap, recipeSnap, type Snap } from './amounts';
 import { lookupBarcode } from './lookup';
 import {
   dedupeRemote,
@@ -70,6 +73,7 @@ import {
   type MealLine,
   type RowModel,
 } from './results';
+import { saveRemoteFood } from './remoteFood';
 import { useUsdaSearch } from './useUsdaSearch';
 
 const FoodForm = lazy(() => import('../foods/FoodForm').then((m) => ({ default: m.FoodForm })));
@@ -190,7 +194,8 @@ export const AddOverlay = forwardRef<AddOverlayHandle, AddOverlayProps>(function
     const onKey = (e: KeyboardEvent) => {
       if (panelOpen) return;
       const el = e.target as HTMLElement | null;
-      const typing = el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable);
+      const typing =
+        el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable);
       if (e.key === 'Escape') close();
       else if (e.key === '/' && !typing) {
         e.preventDefault();
@@ -209,7 +214,10 @@ export const AddOverlay = forwardRef<AddOverlayHandle, AddOverlayProps>(function
     () => ({ foods: foodsById, recipes: recipesById }),
     [foodsById, recipesById],
   );
-  const index = useMemo(() => buildIndex(foods, recipes, meals, new Date()), [foods, recipes, meals]);
+  const index = useMemo(
+    () => buildIndex(foods, recipes, meals, new Date()),
+    [foods, recipes, meals],
+  );
 
   const trimmed = query.trim();
   const localRows: RowModel[] = useMemo(
@@ -287,7 +295,11 @@ export const AddOverlay = forwardRef<AddOverlayHandle, AddOverlayProps>(function
       id: newId(),
     });
     afterAdd();
-    commit([entry], { foods: [{ id: food.id, lastAmount: { amount, unit } }] }, `Added ${food.name}`);
+    commit(
+      [entry],
+      { foods: [{ id: food.id, lastAmount: { amount, unit } }] },
+      `Added ${food.name}`,
+    );
   };
 
   const addRecipe = (recipe: Recipe, amount: number, unit: UnitRef) => {
@@ -304,7 +316,11 @@ export const AddOverlay = forwardRef<AddOverlayHandle, AddOverlayProps>(function
       id: newId(),
     });
     afterAdd();
-    commit([entry], { recipes: [{ id: recipe.id, lastAmount: { amount, unit } }] }, `Added ${recipe.name}`);
+    commit(
+      [entry],
+      { recipes: [{ id: recipe.id, lastAmount: { amount, unit } }] },
+      `Added ${recipe.name}`,
+    );
   };
 
   const addMeal = (meal: SavedMeal, chosen: { line: MealLine; amount: number }[]) => {
@@ -359,18 +375,8 @@ export const AddOverlay = forwardRef<AddOverlayHandle, AddOverlayProps>(function
   // ---- picking ----
 
   const openRemote = async (remote: RemoteFood) => {
-    const food = await foodRepo.upsertRemote(remote);
+    const food = await saveRemoteFood(remote, apiKey);
     setPanel({ type: 'food', food });
-    const generic = remote.dataType === 'Foundation' || remote.dataType === 'SR Legacy';
-    if (generic && remote.sourceId && food.servings.length === 0) {
-      try {
-        const servings = await getUsdaDetails(remote.sourceId, { apiKey });
-        const latest = await foodRepo.get(food.id);
-        if (servings.length > 0 && latest) await foodRepo.save({ ...latest, servings });
-      } catch {
-        // Servings are a nicety; grams still work.
-      }
-    }
   };
 
   const pick = (row: RowModel) => {
@@ -399,7 +405,13 @@ export const AddOverlay = forwardRef<AddOverlayHandle, AddOverlayProps>(function
         if (ac.signal.aborted) return;
         if (res.kind === 'local') setPanel({ type: 'food', food: res.food });
         else if (res.kind === 'remote') await openRemote(res.remote);
-        else setPanel({ type: 'nomatch', code, failed: res.kind === 'error', offline: res.kind === 'error' && res.offline });
+        else
+          setPanel({
+            type: 'nomatch',
+            code,
+            failed: res.kind === 'error',
+            offline: res.kind === 'error' && res.offline,
+          });
       })
       .catch(() => {
         if (!ac.signal.aborted) setPanel({ type: 'nomatch', code, failed: true, offline: false });
@@ -592,7 +604,11 @@ export const AddOverlay = forwardRef<AddOverlayHandle, AddOverlayProps>(function
         </Panel>
       ) : null}
       {panel?.type === 'nomatch' ? (
-        <Panel open title={panel.failed ? `Could not look up ${panel.code}` : `No match for ${panel.code}`} onClose={() => setPanel(null)}>
+        <Panel
+          open
+          title={panel.failed ? `Could not look up ${panel.code}` : `No match for ${panel.code}`}
+          onClose={() => setPanel(null)}
+        >
           {panel.failed ? (
             <p className="mb-3 text-sm text-muted">
               {panel.offline ? 'Offline: barcode lookup needs a connection.' : 'The lookup failed.'}

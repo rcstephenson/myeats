@@ -1,11 +1,17 @@
 import { useState, type ReactNode } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
-import { GripVertical, Trash2 } from 'lucide-react';
+import { GripVertical, Plus, Trash2 } from 'lucide-react';
 import { buildIndex, search } from '../../domain/search';
 import { formatKcal, type UnitOption } from '../../domain/units';
-import type { Food, Recipe, UnitRef } from '../../domain/types';
-import { Card, NumberField, SearchField, Sheet } from '../ui';
+import type { Food, Recipe, RemoteFood, UnitRef } from '../../domain/types';
+import { useSettings } from '../../hooks/useSettings';
+import { resolveUsdaKey } from '../../sources/usdaKey';
+import { saveRemoteFood } from '../add/remoteFood';
+import { dedupeRemote, remoteRow } from '../add/results';
+import { useUsdaSearch } from '../add/useUsdaSearch';
+import { Button, Card, NumberField, SearchField, Sheet } from '../ui';
 import { SelectField } from './fields';
+import { FoodForm } from './FoodForm';
 import { visibleFoods } from './library';
 
 export type DraftItem = {
@@ -135,10 +141,35 @@ export interface ItemPickerProps {
   onClose: () => void;
 }
 
-/** Local search over the user's foods (and recipes) using the domain search index. */
+/**
+ * Picks an item for a meal or recipe: local search over the user's foods (and recipes), USDA
+ * results below them, and Create food. A USDA result or a newly created food is saved to the
+ * user's foods and handed straight to `onPick`.
+ */
 export function ItemPicker({ open, title, foods, recipes, onPick, onClose }: ItemPickerProps) {
   const [q, setQ] = useState('');
+  const [creating, setCreating] = useState(false);
+  const [saving, setSaving] = useState(false);
   const query = q.trim();
+  const settings = useSettings();
+  const apiKey = resolveUsdaKey(settings?.usdaApiKey ?? null).key;
+  const usda = useUsdaSearch(open && !creating ? query : '', apiKey);
+  const remoteRows = dedupeRemote(usda.results, foods).map((r) => remoteRow(r, usda.cached));
+
+  const finish = (pick: Picked) => {
+    setQ('');
+    setCreating(false);
+    onPick(pick);
+  };
+  const pickRemote = async (remote: RemoteFood) => {
+    if (saving) return;
+    setSaving(true);
+    try {
+      finish({ kind: 'food', food: await saveRemoteFood(remote, apiKey) });
+    } finally {
+      setSaving(false);
+    }
+  };
   const index = buildIndex(visibleFoods(foods), recipes ?? [], [], new Date());
   const hits = query === '' ? [] : search(index, query, 30);
   const idle: Picked[] =
@@ -162,12 +193,30 @@ export function ItemPicker({ open, title, foods, recipes, onPick, onClose }: Ite
   ];
   const close = () => {
     setQ('');
+    setCreating(false);
     onClose();
   };
+
+  if (creating) {
+    return (
+      <Sheet open={open} onClose={close} title="Create food">
+        <FoodForm
+          prefill={query ? { name: query } : undefined}
+          onSaved={(food) => finish({ kind: 'food', food })}
+          onCancel={() => setCreating(false)}
+        />
+      </Sheet>
+    );
+  }
+
   return (
     <Sheet open={open} onClose={close} title={title}>
-      <SearchField value={q} onChange={setQ} placeholder="Search your foods" />
-      <ul className="mt-3">
+      <SearchField value={q} onChange={setQ} placeholder="Search foods" />
+      <Button variant="secondary" className="mt-3" onClick={() => setCreating(true)}>
+        <Plus size={16} aria-hidden="true" /> Create food
+      </Button>
+      {query ? <p className="micro mt-4">Your foods</p> : null}
+      <ul className="mt-1">
         {rows.map((r) => {
           const id = r.kind === 'food' ? r.food.id : r.recipe.id;
           const name = r.kind === 'food' ? r.food.name : r.recipe.name;
@@ -194,8 +243,47 @@ export function ItemPicker({ open, title, foods, recipes, onPick, onClose }: Ite
       </ul>
       {rows.length === 0 ? (
         <p className="py-4 text-sm text-muted">
-          {query ? 'No matches in your foods.' : 'No foods yet. Create one in the Foods tab.'}
+          {query ? 'No matches in your foods.' : 'No foods yet. Search USDA or create one.'}
         </p>
+      ) : null}
+      {query ? (
+        <>
+          <p className="micro mt-4">USDA</p>
+          {remoteRows.length > 0 ? (
+            <ul aria-label="USDA results" className="mt-1">
+              {remoteRows.map((r) => (
+                <li key={r.key}>
+                  <button
+                    type="button"
+                    disabled={saving}
+                    onClick={() => void pickRemote(r.remote)}
+                    className="flex min-h-touch w-full items-center gap-2 border-b border-hairline py-2 text-left"
+                  >
+                    <span className="min-w-0 flex-1 truncate text-sm text-ink">
+                      {r.name}
+                      {r.brand ? <span className="text-muted"> · {r.brand}</span> : null}
+                    </span>
+                    <span className="num text-xs text-muted">{r.kcal}</span>
+                    {r.tag ? <span className="micro">{r.tag}</span> : null}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          ) : null}
+          <p className="py-3 text-sm text-muted" aria-live="polite">
+            {usda.status === 'loading'
+              ? 'Searching USDA…'
+              : usda.status === 'offline'
+                ? 'Offline: showing saved foods only'
+                : usda.status === 'busy'
+                  ? 'USDA search is busy, try again in a minute'
+                  : usda.status === 'error'
+                    ? 'USDA search failed'
+                    : usda.status === 'done' && remoteRows.length === 0
+                      ? 'No USDA matches'
+                      : ''}
+          </p>
+        </>
       ) : null}
     </Sheet>
   );
